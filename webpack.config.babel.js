@@ -2,6 +2,7 @@ import { resolve } from 'path';
 import HtmlPlugin from 'html-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
+import CnameWebpackPlugin from 'cname-webpack-plugin';
 import StylelintPlugin from 'stylelint-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { CleanWebpackPlugin as CleanPlugin } from 'clean-webpack-plugin';
@@ -10,6 +11,9 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 const dev = process.env.NODE_ENV === 'development';
 
 const plugins = [
+  new CnameWebpackPlugin({
+    domain: 'nodevers.com'
+  }),
   new CleanPlugin(),
   new StylelintPlugin({
     configFile: '.stylelintrc',
