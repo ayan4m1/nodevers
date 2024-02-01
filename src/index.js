@@ -3,8 +3,6 @@ import 'core-js/stable';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import './icons.js';
-
 import './index.scss';
 import App from './components/App';
 

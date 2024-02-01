@@ -1,6 +1,7 @@
 {
   "defaultSeverity": "warning",
   "extends": "stylelint-config-recommended",
+  "customSyntax": "postcss-scss",
   "rules": {
     "at-rule-allowed-list": null,
     "at-rule-disallowed-list": null,
