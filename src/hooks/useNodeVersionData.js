@@ -1,43 +1,11 @@
-// const { get } = require('https');
-
+import { compare } from 'semver';
 import { useEffect, useState } from 'react';
 
-// const ENDPOINT = 'https://nodejs.org/dist/index.json';
-
-// function requestVersionInfo(url) {
-//   return new Promise((resolve, reject) => {
-//     get(url, response => {
-//       let data = '';
-//       response.on('data', chunk => data += chunk);
-//       response.on('end', () => resolve(data));
-//     }).on('error', error => reject(new Error(error)));
-//   });
-// }
-
-// function extractVersionInfo(json) {
-//   return JSON.parse(json).map(({ version, npm = null }) => {
-//     return {
-//       nodejs: version.replace(/^v/, ''),
-//       npm
-//     };
-//   });
-// }
-
-// (async function logVersionInfo() {
-//   try {
-//     const json = await requestVersionInfo(ENDPOINT);
-//     const versionInfo = extractVersionInfo(json);
-//     console.log(JSON.stringify(versionInfo, null, 2));
-
-//   } catch ({ message }) {
-//     console.error(message);
-//   }
-// })();
-
+const semverFields = ['node', 'npm'];
 const url = 'https://nodejs.org/dist/index.json';
 
 export default function useNodeVersionData(sortField, sortDirection) {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -64,7 +32,13 @@ export default function useNodeVersionData(sortField, sortDirection) {
               return sortDirection ? -1 : 1;
             }
 
-            return aVal.localeCompare(bVal) * sortDirection ? -1 : 1;
+            if (semverFields.includes(sortField)) {
+              return compare(aVal, bVal) * sortDirection ? -1 : 1;
+            } else if (typeof aVal === 'string') {
+              return aVal.localeCompare(bVal) * sortDirection ? -1 : 1;
+            } else {
+              return sortDirection ? bVal - aVal : aVal - bVal;
+            }
           });
         }
 

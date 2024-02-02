@@ -1,13 +1,31 @@
+import { satisfies } from 'semver';
+import { useCallback, useState, useMemo } from 'react';
 import { Badge, Table } from 'react-bootstrap';
+import { faFileText } from '@fortawesome/free-solid-svg-icons';
 
 import Layout from 'components/Layout';
+import FilterForm from 'components/FilterForm';
+import LinkButton from 'components/LinkButton';
 import useNodeVersionData from 'hooks/useNodeVersionData';
-import { useCallback, useState } from 'react';
 
 export default function App() {
+  const [filter, setFilter] = useState(null);
   const [sortField, setSortField] = useState(null);
   const [sortDirection, setSortDirection] = useState(true);
   const { data, error, loading } = useNodeVersionData(sortField, sortDirection);
+
+  const filteredData = useMemo(
+    () =>
+      !filter
+        ? data
+        : data?.filter(({ node, npm }) => {
+            const { desiredAppName, term } = filter;
+            const targetAppVersion = desiredAppName === 'node' ? npm : node;
+
+            return satisfies(targetAppVersion, term);
+          }),
+    [data, filter]
+  );
 
   const handleSortClick = useCallback((field) => {
     setSortField((prevSortField) => {
@@ -29,7 +47,7 @@ export default function App() {
   } else if (error) {
     return (
       <Layout>
-        <h1>Error Loading Data!</h1>
+        <h1>Runtime Error!</h1>
         <blockquote>{JSON.stringify(error, null, 2)}</blockquote>
       </Layout>
     );
@@ -37,32 +55,61 @@ export default function App() {
 
   return (
     <Layout>
+      <FilterForm onFilterChange={setFilter} />
       <Table variant="dark">
         <thead>
           <tr>
             <th onClick={() => handleSortClick('date')}>Release Date</th>
-            <th onClick={() => handleSortClick('lts')}>LTS</th>
-            <th onClick={() => handleSortClick('node')}>Node.js Version</th>
-            <th onClick={() => handleSortClick('npm')}>NPM Version</th>
-            <th onClick={() => handleSortClick('modules')}>Module Version</th>
+            <th className="text-center" onClick={() => handleSortClick('lts')}>
+              LTS
+            </th>
+            <th className="text-end" onClick={() => handleSortClick('node')}>
+              Node.js Version
+            </th>
+            <th className="text-end" onClick={() => handleSortClick('npm')}>
+              NPM Version
+            </th>
+            <th className="text-end" onClick={() => handleSortClick('modules')}>
+              Module Version
+            </th>
           </tr>
         </thead>
         <tbody>
-          {data.map(({ node, npm, lts, modules, date }) => (
-            <tr key={node}>
-              <td>{date}</td>
-              <td>
-                {lts ? (
-                  <Badge bg="success">LTS</Badge>
-                ) : (
-                  <Badge bg="warning">Non-LTS</Badge>
-                )}
+          {filteredData.length ? (
+            filteredData.map(({ node, npm, lts, modules, date }) => (
+              <tr key={node}>
+                <td>{date}</td>
+                <td className="text-center">
+                  <Badge bg={lts ? 'success' : 'warning'}>
+                    {lts ? 'LTS' : 'Non-LTS'}
+                  </Badge>
+                </td>
+                <td className="text-end">
+                  <span>{node}</span>
+                  <LinkButton
+                    href={`https://nodejs.org/en/blog/release/v${node}`}
+                    icon={faFileText}
+                    className="ms-2"
+                  />
+                </td>
+                <td className="text-end">
+                  <span>{npm}</span>
+                  <LinkButton
+                    href={`https://github.com/npm/cli/releases/tag/v${npm}`}
+                    icon={faFileText}
+                    className="ms-2"
+                  />
+                </td>
+                <td className="text-end">{modules}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={5} className="text-center">
+                No matching releases.
               </td>
-              <td>{node}</td>
-              <td>{npm}</td>
-              <td>{modules}</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </Table>
     </Layout>
