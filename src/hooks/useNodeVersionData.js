@@ -1,19 +1,34 @@
-import { compare } from 'semver';
-import { useEffect, useState } from 'react';
+import { compare, satisfies } from 'semver';
+import { useEffect, useState, useMemo } from 'react';
 
 const semverFields = ['node', 'npm'];
 const url = 'https://nodejs.org/dist/index.json';
 
-export default function useNodeVersionData(sortField, sortDirection) {
+export default function useNodeVersionData({ sort, filter }) {
+  const { field, direction } = sort;
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const filteredData = useMemo(() => {
+    if (!filter) {
+      return data;
+    }
+
+    const { desiredAppName, term } = filter;
+
+    return data?.filter(({ node, npm }) => {
+      const targetAppVersion = desiredAppName === 'node' ? npm : node;
+
+      return satisfies(targetAppVersion, term);
+    });
+  }, [data, filter]);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const result = await fetch(url);
         const rawData = await result.json();
+
         const transformedData = rawData.map(
           ({ version, lts, npm, modules, date }) => ({
             node: version.replace(/^v/, ''),
@@ -24,20 +39,20 @@ export default function useNodeVersionData(sortField, sortDirection) {
           })
         );
 
-        if (sortField) {
+        if (field) {
           transformedData.sort((a, b) => {
-            const [aVal, bVal] = [a[sortField], b[sortField]];
+            const [aVal, bVal] = [a[field], b[field]];
 
             if (!aVal) {
-              return sortDirection ? -1 : 1;
+              return direction ? -1 : 1;
             }
 
-            if (semverFields.includes(sortField)) {
-              return compare(aVal, bVal) * sortDirection ? -1 : 1;
+            if (semverFields.includes(field)) {
+              return compare(aVal, bVal) * direction ? -1 : 1;
             } else if (typeof aVal === 'string') {
-              return aVal.localeCompare(bVal) * sortDirection ? -1 : 1;
+              return aVal.localeCompare(bVal) * direction ? -1 : 1;
             } else {
-              return sortDirection ? bVal - aVal : aVal - bVal;
+              return direction ? bVal - aVal : aVal - bVal;
             }
           });
         }
@@ -53,10 +68,10 @@ export default function useNodeVersionData(sortField, sortDirection) {
     }
 
     fetchData();
-  }, [sortField, sortDirection]);
+  }, [field, direction, filter]);
 
   return {
-    data,
+    data: filteredData,
     error,
     loading
   };

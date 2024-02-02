@@ -1,5 +1,4 @@
-import { satisfies } from 'semver';
-import { useCallback, useState, useMemo } from 'react';
+import { useCallback, useState } from 'react';
 import { Badge, Table } from 'react-bootstrap';
 import { faFileText } from '@fortawesome/free-solid-svg-icons';
 
@@ -10,30 +9,21 @@ import useNodeVersionData from 'hooks/useNodeVersionData';
 
 export default function App() {
   const [filter, setFilter] = useState(null);
-  const [sortField, setSortField] = useState(null);
-  const [sortDirection, setSortDirection] = useState(true);
-  const { data, error, loading } = useNodeVersionData(sortField, sortDirection);
+  const [sort, setSort] = useState({
+    field: 'date',
+    direction: false
+  });
+  const { data, error, loading } = useNodeVersionData({ sort, filter });
 
-  const filteredData = useMemo(
-    () =>
-      !filter
-        ? data
-        : data?.filter(({ node, npm }) => {
-            const { desiredAppName, term } = filter;
-            const targetAppVersion = desiredAppName === 'node' ? npm : node;
-
-            return satisfies(targetAppVersion, term);
-          }),
-    [data, filter]
-  );
-
-  const handleSortClick = useCallback((field) => {
-    setSortField((prevSortField) => {
-      if (prevSortField === field) {
-        setSortDirection((prevVal) => !prevVal);
-        return prevSortField;
+  const handleSortClick = useCallback((newField) => {
+    setSort(({ field, direction }) => {
+      if (field === newField) {
+        return {
+          field,
+          direction: !direction
+        };
       } else {
-        return field;
+        return { field: newField, direction };
       }
     });
   }, []);
@@ -75,8 +65,8 @@ export default function App() {
           </tr>
         </thead>
         <tbody>
-          {filteredData.length ? (
-            filteredData.map(({ node, npm, lts, modules, date }) => (
+          {data.length ? (
+            data.map(({ node, npm, lts, modules, date }) => (
               <tr key={node}>
                 <td>{date}</td>
                 <td className="text-center">
