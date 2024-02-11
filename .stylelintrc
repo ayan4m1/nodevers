@@ -132,7 +132,6 @@
         ]
       }
     ],
-    
     "selector-attribute-operator-allowed-list": null,
     "selector-attribute-operator-disallowed-list": null,
     "selector-attribute-quotes": "always",

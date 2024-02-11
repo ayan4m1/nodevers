@@ -59,8 +59,6 @@ export default function useNodeVersionData({ sort, filter }) {
 
         setData(transformedData);
       } catch (err) {
-        // eslint-disable-next-line
-        console.error(err);
         setError(err);
       } finally {
         setLoading(false);

@@ -1,13 +1,16 @@
-import { useCallback, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { Badge, Table } from 'react-bootstrap';
+import { Fragment, useCallback, useState } from 'react';
 import { faFileText } from '@fortawesome/free-solid-svg-icons';
 
-import Layout from 'components/Layout';
-import FilterForm from 'components/FilterForm';
 import LinkButton from 'components/LinkButton';
+import FilterForm from 'components/nodeVersions/FilterForm';
+import CustomErrorBoundary from 'components/ErrorBoundary';
 import useNodeVersionData from 'hooks/useNodeVersionData';
 
-export default function App() {
+export const ErrorBoundary = CustomErrorBoundary;
+
+export function Component() {
   const [filter, setFilter] = useState(null);
   const [sort, setSort] = useState({
     field: 'date',
@@ -30,21 +33,17 @@ export default function App() {
 
   if (loading) {
     return (
-      <Layout>
+      <Fragment>
         <h1>Loading...</h1>
-      </Layout>
+      </Fragment>
     );
   } else if (error) {
-    return (
-      <Layout>
-        <h1>Runtime Error!</h1>
-        <blockquote>{JSON.stringify(error, null, 2)}</blockquote>
-      </Layout>
-    );
+    throw error;
   }
 
   return (
-    <Layout>
+    <Fragment>
+      <Helmet title="Node/NPM Release Versions" />
       <FilterForm onFilterChange={setFilter} />
       <Table variant="dark">
         <thead>
@@ -102,6 +101,6 @@ export default function App() {
           )}
         </tbody>
       </Table>
-    </Layout>
+    </Fragment>
   );
 }
