@@ -12,7 +12,7 @@ const dev = process.env.NODE_ENV === 'development';
 
 const plugins = [
   new CnameWebpackPlugin({
-    domain: 'nodevers.com'
+    domain: 'nodevers.andrewdelisa.com'
   }),
   new CleanPlugin(),
   new StylelintPlugin({
