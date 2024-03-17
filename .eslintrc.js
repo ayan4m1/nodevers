@@ -4,7 +4,6 @@ module.exports = {
   env: {
     browser: true,
     es2020: true,
-
     node: true
   },
   extends: [
@@ -21,7 +20,7 @@ module.exports = {
     ecmaFeatures: {
       jsx: true
     },
-    ecmaVersion: 12
+    ecmaVersion: 14
   },
   rules: {
     'accessor-pairs': 2,
