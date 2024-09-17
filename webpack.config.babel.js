@@ -27,7 +27,8 @@ const plugins = [
     template: './src/index.html'
   }),
   new ESLintPlugin({
-    configType: 'flat'
+    configType: 'flat',
+    eslintPath: 'eslint/use-at-your-own-risk'
   }),
   new MiniCssExtractPlugin()
 ];
