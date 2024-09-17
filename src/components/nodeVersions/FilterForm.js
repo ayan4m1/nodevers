@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useFormik } from 'formik';
 import { validRange } from 'semver';
+import { useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Row, Col, Form, InputGroup, Button } from 'react-bootstrap';
 import { faRefresh, faUndo } from '@fortawesome/free-solid-svg-icons';
@@ -23,6 +24,14 @@ export default function FilterForm({ onFilterChange }) {
     },
     onSubmit: onFilterChange
   });
+  const handleKeyUp = useCallback(
+    (event) => {
+      if (event.code === 'Enter') {
+        handleSubmit();
+      }
+    },
+    [handleSubmit]
+  );
 
   return (
     <Row className="mb-4">
@@ -52,6 +61,7 @@ export default function FilterForm({ onFilterChange }) {
             placeholder='a semver expression (e.g. "1.2.x", "^8.0.0")'
             value={values.term}
             onChange={handleChange}
+            onKeyUp={handleKeyUp}
             className="mx-2"
           />
           <Button variant="primary" onClick={handleSubmit}>
