@@ -33,23 +33,23 @@ export default function FilterForm({ formikContext }) {
             <Form.Group className="mb-2">
               <Form.Label>Package Name</Form.Label>
               <AsyncTypeahead
-                id="package-name"
-                filterBy={() => true}
-                isLoading={loading}
-                options={packageNames}
-                onSearch={handleSearchUpdate}
-                onChange={handleSearchSelect}
-                placeholder={'e.g. "lodash"'}
                 defaultInputValue={values.name}
+                filterBy={() => true}
+                id="package-name"
+                isLoading={loading}
                 multiple={false}
+                onChange={handleSearchSelect}
+                onSearch={handleSearchUpdate}
+                options={packageNames}
+                placeholder={'e.g. "lodash"'}
               />
             </Form.Group>
             <Form.Group>
               <Form.Label>Semver Expression</Form.Label>
               <Form.Control
                 name="version"
-                type="text"
                 onChange={handleChange}
+                type="text"
                 value={values.version}
               />
             </Form.Group>

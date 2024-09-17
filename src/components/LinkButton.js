@@ -12,13 +12,13 @@ export default function LinkButton({
     <Button
       {...props}
       as="a"
-      target="_blank"
-      rel="noopener noreferrer"
       href={href}
+      rel="noopener noreferrer"
       size="sm"
+      target="_blank"
       variant="info"
     >
-      {title} {Boolean(icon) && <FontAwesomeIcon icon={icon} fixedWidth />}
+      {title} {Boolean(icon) && <FontAwesomeIcon fixedWidth icon={icon} />}
     </Button>
   );
 }

@@ -5,7 +5,7 @@ import {
   getChangelogUrl,
   getLatestVersion,
   getPackageManifestUrl
-} from 'utils';
+} from '../utils';
 
 export default function usePackageVersionData({ name, version }) {
   const [data, setData] = useState([]);

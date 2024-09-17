@@ -40,9 +40,9 @@ export default function FilterForm({ onFilterChange }) {
           <InputGroup.Text>Find versions of </InputGroup.Text>
           <Form.Select
             name="desiredAppName"
-            value={values.desiredAppName}
             onChange={handleChange}
             style={{ maxWidth: 100 }}
+            value={values.desiredAppName}
           >
             <option value="node">Node.js</option>
             <option value="npm">NPM</option>
@@ -56,23 +56,23 @@ export default function FilterForm({ onFilterChange }) {
             matches{' '}
           </InputGroup.Text>
           <Form.Control
-            type="text"
+            className="mx-2"
             name="term"
-            placeholder='a semver expression (e.g. "1.2.x", "^8.0.0")'
-            value={values.term}
             onChange={handleChange}
             onKeyUp={handleKeyUp}
-            className="mx-2"
+            placeholder='a semver expression (e.g. "1.2.x", "^8.0.0")'
+            type="text"
+            value={values.term}
           />
-          <Button variant="primary" onClick={handleSubmit}>
+          <Button onClick={handleSubmit} variant="primary">
             <FontAwesomeIcon icon={faRefresh} /> Update
           </Button>
           <Button
-            variant="warning"
             onClick={() => {
               handleReset();
               handleSubmit();
             }}
+            variant="warning"
           >
             <FontAwesomeIcon icon={faUndo} /> Reset
           </Button>

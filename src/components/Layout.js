@@ -10,7 +10,7 @@ export default function Layout({ children }) {
   return (
     <Fragment>
       <Helmet titleTemplate="Nodevers - %s" />
-      <Navbar variant="dark" expand="lg">
+      <Navbar expand="lg" variant="dark">
         <Container>
           <Navbar.Brand>
             <Nav.Link as={Link} to="/">
@@ -21,7 +21,7 @@ export default function Layout({ children }) {
           <Navbar.Collapse>
             <Nav>
               <Nav.Link as={Link} to="/packages">
-                <FontAwesomeIcon icon={faBoxesPacking} fixedWidth /> Packages
+                <FontAwesomeIcon fixedWidth icon={faBoxesPacking} /> Packages
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>

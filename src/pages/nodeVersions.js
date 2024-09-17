@@ -3,10 +3,10 @@ import { Badge, Table } from 'react-bootstrap';
 import { Fragment, useCallback, useState } from 'react';
 import { faFileText } from '@fortawesome/free-solid-svg-icons';
 
-import LinkButton from 'components/LinkButton';
-import FilterForm from 'components/nodeVersions/FilterForm';
-import CustomErrorBoundary from 'components/ErrorBoundary';
-import useNodeVersionData from 'hooks/useNodeVersionData';
+import LinkButton from '../components/LinkButton';
+import FilterForm from '../components/nodeVersions/FilterForm';
+import CustomErrorBoundary from '../components/ErrorBoundary';
+import useNodeVersionData from '../hooks/useNodeVersionData';
 
 export const ErrorBoundary = CustomErrorBoundary;
 
@@ -76,17 +76,17 @@ export function Component() {
                 <td className="text-end">
                   <span>{node}</span>
                   <LinkButton
+                    className="ms-2"
                     href={`https://nodejs.org/en/blog/release/v${node}`}
                     icon={faFileText}
-                    className="ms-2"
                   />
                 </td>
                 <td className="text-end">
                   <span>{npm}</span>
                   <LinkButton
+                    className="ms-2"
                     href={`https://github.com/npm/cli/releases/tag/v${npm}`}
                     icon={faFileText}
-                    className="ms-2"
                   />
                 </td>
                 <td className="text-end">{modules}</td>
@@ -94,7 +94,7 @@ export function Component() {
             ))
           ) : (
             <tr>
-              <td colSpan={5} className="text-center">
+              <td className="text-center" colSpan={5}>
                 No matching releases.
               </td>
             </tr>

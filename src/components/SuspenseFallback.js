@@ -1,6 +1,6 @@
 import { Row, Col, Spinner } from 'react-bootstrap';
 
-import Layout from 'components/Layout';
+import Layout from './Layout';
 
 export default function SuspenseFallback() {
   return (

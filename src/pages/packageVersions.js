@@ -5,10 +5,10 @@ import { Button, ButtonGroup, Card, Col, Row, Table } from 'react-bootstrap';
 import { faCode } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import CustomErrorBoundary from 'components/ErrorBoundary';
-import FilterForm from 'components/packageVersions/FilterForm';
-import usePackageVersionData from 'hooks/usePackageVersionData';
-import { getCodeBrowserUrl } from 'utils';
+import { getCodeBrowserUrl } from '../utils';
+import CustomErrorBoundary from '../components/ErrorBoundary';
+import FilterForm from '../components/packageVersions/FilterForm';
+import usePackageVersionData from '../hooks/usePackageVersionData';
 
 export const ErrorBoundary = CustomErrorBoundary;
 
@@ -41,13 +41,13 @@ export function Component() {
             <Col xs={10}>
               <h1>Package {data.name}</h1>
             </Col>
-            <Col xs={2} className="d-flex h-100 justify-content-end">
+            <Col className="d-flex h-100 justify-content-end" xs={2}>
               <ButtonGroup>
                 <Button
                   as="a"
                   href={getCodeBrowserUrl(data.name)}
-                  target="_blank"
                   rel="noopener noreferrer"
+                  target="_blank"
                   variant="info"
                 >
                   <FontAwesomeIcon icon={faCode} /> GitHub
@@ -66,7 +66,7 @@ export function Component() {
                 <Card.Title className="mb-4 text-light">
                   Matching Versions
                 </Card.Title>
-                <Table striped hover bordered variant="dark">
+                <Table bordered hover striped variant="dark">
                   <thead>
                     <tr>
                       <th className="text-end">Version</th>

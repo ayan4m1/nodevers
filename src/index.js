@@ -3,8 +3,8 @@ import { Suspense } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import './index.scss';
-import Layout from 'components/Layout';
-import SuspenseFallback from 'components/SuspenseFallback';
+import Layout from './components/Layout';
+import SuspenseFallback from './components/SuspenseFallback';
 
 const createRouteForPage = (pathOrIndex, pageName) => {
   const result = {};
