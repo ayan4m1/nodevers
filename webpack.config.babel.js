@@ -26,7 +26,9 @@ const plugins = [
   new HtmlPlugin({
     template: './src/index.html'
   }),
-  new ESLintPlugin(),
+  new ESLintPlugin({
+    configType: 'flat'
+  }),
   new MiniCssExtractPlugin()
 ];
 
