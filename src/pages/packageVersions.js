@@ -5,10 +5,10 @@ import { Button, ButtonGroup, Card, Col, Row, Table } from 'react-bootstrap';
 import { faCode } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getCodeBrowserUrl } from '../utils';
-import CustomErrorBoundary from '../components/ErrorBoundary';
-import FilterForm from '../components/packageVersions/FilterForm';
-import usePackageVersionData from '../hooks/usePackageVersionData';
+import { getCodeBrowserUrl } from 'utils';
+import CustomErrorBoundary from 'components/ErrorBoundary';
+import FilterForm from 'components/packageVersions/FilterForm';
+import usePackageVersionData from 'hooks/usePackageVersionData';
 
 export const ErrorBoundary = CustomErrorBoundary;
 

@@ -3,10 +3,10 @@ import { Badge, Table } from 'react-bootstrap';
 import { Fragment, useCallback, useState } from 'react';
 import { faFileText } from '@fortawesome/free-solid-svg-icons';
 
-import LinkButton from '../components/LinkButton';
-import FilterForm from '../components/nodeVersions/FilterForm';
-import CustomErrorBoundary from '../components/ErrorBoundary';
-import useNodeVersionData from '../hooks/useNodeVersionData';
+import LinkButton from 'components/LinkButton';
+import FilterForm from 'components/nodeVersions/FilterForm';
+import CustomErrorBoundary from 'components/ErrorBoundary';
+import useNodeVersionData from 'hooks/useNodeVersionData';
 
 export const ErrorBoundary = CustomErrorBoundary;
 

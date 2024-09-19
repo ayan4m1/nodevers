@@ -31,6 +31,11 @@ export default [
     settings: {
       react: {
         version: 'detect'
+      },
+      'import-x/resolver': {
+        node: {
+          paths: ['./src/']
+        }
       }
     }
   }
