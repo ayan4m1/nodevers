@@ -1,12 +1,14 @@
 import { resolve } from 'path';
+import autoprefixer from 'autoprefixer';
 import HtmlPlugin from 'html-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import TerserPlugin from 'terser-webpack-plugin';
 import CnameWebpackPlugin from 'cname-webpack-plugin';
 import StylelintPlugin from 'stylelint-webpack-plugin';
+import postcssFlexbugsFixes from 'postcss-flexbugs-fixes';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import { CleanWebpackPlugin as CleanPlugin } from 'clean-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import { CleanWebpackPlugin as CleanPlugin } from 'clean-webpack-plugin';
 
 const dev = process.env.NODE_ENV === 'development';
 
@@ -61,10 +63,7 @@ export default {
             options: {
               postcssOptions: {
                 ident: 'postcss',
-                plugins: [
-                  require('autoprefixer'),
-                  require('postcss-flexbugs-fixes')
-                ]
+                plugins: [autoprefixer, postcssFlexbugsFixes]
               },
               sourceMap: dev
             }
@@ -101,7 +100,7 @@ export default {
     minimizer: [
       new TerserPlugin({
         terserOptions: {
-          ecma: 12
+          ecma: 20
         }
       }),
       new CssMinimizerPlugin()
