@@ -13,27 +13,32 @@ import { CleanWebpackPlugin as CleanPlugin } from 'clean-webpack-plugin';
 const dev = process.env.NODE_ENV === 'development';
 
 const plugins = [
-  new CnameWebpackPlugin({
-    domain: 'nodevers.andrewdelisa.com'
-  }),
   new CleanPlugin(),
-  new StylelintPlugin({
-    configFile: '.stylelintrc',
-    context: 'src',
-    files: '**/*.scss',
-    failOnError: true,
-    quiet: false,
-    customSyntax: 'postcss-scss'
-  }),
   new HtmlPlugin({
     template: './src/index.html'
   }),
-  new ESLintPlugin({
-    configType: 'flat',
-    eslintPath: 'eslint/use-at-your-own-risk'
-  }),
-  new MiniCssExtractPlugin()
+  new MiniCssExtractPlugin(),
+  new CnameWebpackPlugin({
+    domain: 'nodevers.andrewdelisa.com'
+  })
 ];
+
+if (dev) {
+  plugins.push(
+    new StylelintPlugin({
+      configFile: '.stylelintrc',
+      context: 'src',
+      files: '**/*.scss',
+      failOnError: true,
+      quiet: false,
+      customSyntax: 'postcss-scss'
+    }),
+    new ESLintPlugin({
+      configType: 'flat',
+      eslintPath: 'eslint/use-at-your-own-risk'
+    })
+  );
+}
 
 export default {
   mode: dev ? 'development' : 'production',
@@ -68,7 +73,14 @@ export default {
               sourceMap: dev
             }
           },
-          'sass-loader'
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                quietDeps: true
+              }
+            }
+          }
         ]
       },
       {
@@ -97,13 +109,6 @@ export default {
     }
   },
   optimization: {
-    minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          ecma: 20
-        }
-      }),
-      new CssMinimizerPlugin()
-    ]
+    minimizer: [new TerserPlugin(), new CssMinimizerPlugin()]
   }
 };
