@@ -14,7 +14,7 @@ export function Component() {
   const [filter, setFilter] = useState(null);
   const [sort, setSort] = useState({
     field: 'date',
-    direction: false
+    direction: true
   });
   const { data, error, loading } = useNodeVersionData({ sort, filter });
 
