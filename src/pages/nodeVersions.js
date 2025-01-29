@@ -82,12 +82,18 @@ export function Component() {
                   />
                 </td>
                 <td className="text-end">
-                  <span>{npm}</span>
-                  <LinkButton
-                    className="ms-2"
-                    href={`https://github.com/npm/cli/releases/tag/v${npm}`}
-                    icon={faFileText}
-                  />
+                  {npm ? (
+                    <Fragment>
+                      <span>{npm}</span>
+                      <LinkButton
+                        className="ms-2"
+                        href={`https://github.com/npm/cli/releases/tag/v${npm}`}
+                        icon={faFileText}
+                      />
+                    </Fragment>
+                  ) : (
+                    'N/A'
+                  )}
                 </td>
                 <td className="text-end">{modules}</td>
               </tr>
