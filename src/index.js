@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { Suspense } from 'react';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createHashRouter } from 'react-router-dom';
 
 import './index.scss';
 import Layout from './components/Layout';
@@ -21,7 +21,7 @@ const createRouteForPage = (pathOrIndex, pageName) => {
 };
 
 const root = createRoot(document.getElementById('root'));
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: '/',
     element: <Layout />,
