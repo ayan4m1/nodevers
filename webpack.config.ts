@@ -1,4 +1,5 @@
 import { resolve } from 'path';
+import { Configuration } from 'webpack';
 import autoprefixer from 'autoprefixer';
 import HtmlPlugin from 'html-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
@@ -9,6 +10,8 @@ import postcssFlexbugsFixes from 'postcss-flexbugs-fixes';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import { CleanWebpackPlugin as CleanPlugin } from 'clean-webpack-plugin';
+
+import 'webpack-dev-server';
 
 const dev = process.env.NODE_ENV === 'development';
 
@@ -34,29 +37,25 @@ if (dev) {
       customSyntax: 'postcss-scss'
     }),
     new ESLintPlugin({
-      configType: 'flat',
-      eslintPath: 'eslint/use-at-your-own-risk'
+      configType: 'flat'
     })
   );
 }
 
-export default {
+const config: Configuration = {
   mode: dev ? 'development' : 'production',
-  devtool: dev ? 'eval-cheap-module-source-map' : 'cheap-module-source-map',
-  entry: './src/index.js',
+  devtool: dev ? 'eval-cheap-module-source-map' : false,
+  entry: './src/index.tsx',
   devServer: {
-    compress: dev,
     open: true,
-    historyApiFallback: true,
-    hot: dev,
-    port: 9000
+    historyApiFallback: true
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: ['babel-loader']
+        test: /\.tsx?$/,
+        use: ['ts-loader'],
+        exclude: /node_modules/
       },
       {
         test: /\.(sa|sc|c)ss$/,
@@ -96,12 +95,12 @@ export default {
   },
   output: {
     path: resolve(__dirname, 'dist'),
-    filename: 'main.js',
+    filename: '[name].js',
     chunkFilename: '[name].js'
   },
   plugins,
   resolve: {
-    extensions: ['.js', '.json'],
+    extensions: ['.js', '.ts', '.tsx', '.json'],
     modules: ['node_modules', 'src'],
     alias: {
       components: resolve(__dirname, 'src/components'),
@@ -112,3 +111,5 @@ export default {
     minimizer: [new TerserPlugin(), new CssMinimizerPlugin()]
   }
 };
+
+export default config;

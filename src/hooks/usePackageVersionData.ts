@@ -5,11 +5,20 @@ import {
   getChangelogUrl,
   getLatestVersion,
   getPackageManifestUrl
-} from 'utils';
+} from '../utils';
+import { DataResult, PackageVersionData } from '../types';
 
-export default function usePackageVersionData({ name, version }) {
-  const [data, setData] = useState([]);
-  const [error, setError] = useState(null);
+interface IProps {
+  name: string;
+  version: string;
+}
+
+export default function usePackageVersionData({
+  name,
+  version
+}: IProps): DataResult<PackageVersionData> {
+  const [data, setData] = useState<PackageVersionData>(null);
+  const [error, setError] = useState<Error>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,7 +29,7 @@ export default function usePackageVersionData({ name, version }) {
         const latestVersion = getLatestVersion(manifest);
         const changelogUrl = await getChangelogUrl(manifest);
 
-        const newData = {
+        const newData: PackageVersionData = {
           ...manifest,
           latestVersion,
           changelogUrl

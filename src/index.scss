@@ -4,3 +4,9 @@
 @import "~bootswatch/dist/solar/bootswatch";
 @import "~react-bootstrap-typeahead/css/Typeahead.css";
 @import "~react-bootstrap-typeahead/css/Typeahead.bs5.css";
+
+html,
+body,
+body > div:first-child {
+  height: 100%;
+}

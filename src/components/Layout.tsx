@@ -1,12 +1,11 @@
 import { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { Link, Outlet } from 'react-router-dom';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBoxesPacking } from '@fortawesome/free-solid-svg-icons';
 
-export default function Layout({ children }) {
+export default function Layout() {
   return (
     <Fragment>
       <Helmet titleTemplate="Nodevers - %s" />
@@ -27,14 +26,9 @@ export default function Layout({ children }) {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <Container>
+      <Container className="h-100">
         <Outlet />
-        {children}
       </Container>
     </Fragment>
   );
 }
-
-Layout.propTypes = {
-  children: PropTypes.node
-};

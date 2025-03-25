@@ -1,10 +1,8 @@
-import { Row, Col, Spinner } from 'react-bootstrap';
-
-import Layout from './Layout';
+import { Row, Col, Spinner, Container } from 'react-bootstrap';
 
 export default function SuspenseFallback() {
   return (
-    <Layout>
+    <Container className="h-100 w-100 d-flex flex-column justify-content-center">
       <Row>
         <Col className="text-center">
           <h1>Loading...</h1>
@@ -15,6 +13,6 @@ export default function SuspenseFallback() {
           <Spinner animation="border" className="my-3" />
         </Col>
       </Row>
-    </Layout>
+    </Container>
   );
 }

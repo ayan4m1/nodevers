@@ -1,13 +1,20 @@
 import { compare, satisfies } from 'semver';
 import { useEffect, useState, useMemo } from 'react';
 
+import { FilterOptions, NodeVersionData, SortOptions } from '../types';
+
 const semverFields = ['node', 'npm'];
 const url = 'https://nodejs.org/dist/index.json';
 
-export default function useNodeVersionData({ sort, filter }) {
+interface IProps {
+  sort: SortOptions;
+  filter: FilterOptions;
+}
+
+export default function useNodeVersionData({ sort, filter }: IProps) {
   const { field, direction } = sort;
-  const [data, setData] = useState([]);
-  const [error, setError] = useState(null);
+  const [data, setData] = useState<NodeVersionData[]>([]);
+  const [error, setError] = useState<Error>(null);
   const [loading, setLoading] = useState(true);
   const filteredData = useMemo(() => {
     if (!filter) {
@@ -48,9 +55,9 @@ export default function useNodeVersionData({ sort, filter }) {
             }
 
             if (semverFields.includes(field)) {
-              return compare(aVal, bVal) * direction ? -1 : 1;
+              return compare(aVal, bVal) * (direction ? -1 : 1);
             } else if (typeof aVal === 'string') {
-              return aVal.localeCompare(bVal) * direction ? -1 : 1;
+              return aVal.localeCompare(bVal) * (direction ? -1 : 1);
             } else {
               return direction ? bVal - aVal : aVal - bVal;
             }

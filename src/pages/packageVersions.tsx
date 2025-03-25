@@ -5,28 +5,23 @@ import { Button, ButtonGroup, Card, Col, Row, Table } from 'react-bootstrap';
 import { faCode } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getCodeBrowserUrl } from 'utils';
-import CustomErrorBoundary from 'components/ErrorBoundary';
-import FilterForm from 'components/packageVersions/FilterForm';
-import usePackageVersionData from 'hooks/usePackageVersionData';
-
-export const ErrorBoundary = CustomErrorBoundary;
+import FilterForm from '../components/packageVersions/FilterForm';
+import usePackageVersionData from '../hooks/usePackageVersionData';
+import SuspenseFallback from '../components/SuspenseFallback';
+import { getCodeBrowserUrl } from '../utils';
 
 export function Component() {
   const formikContext = useFormik({
     initialValues: {
       name: 'lodash',
       version: ''
-    }
+    },
+    onSubmit: () => {}
   });
   const { data, error, loading } = usePackageVersionData(formikContext.values);
 
   if (loading) {
-    return (
-      <Fragment>
-        <h1>Loading...</h1>
-      </Fragment>
-    );
+    return <SuspenseFallback />;
   } else if (error) {
     throw error;
   }

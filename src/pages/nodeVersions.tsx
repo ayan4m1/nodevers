@@ -3,12 +3,10 @@ import { Badge, Table } from 'react-bootstrap';
 import { Fragment, useCallback, useState } from 'react';
 import { faFileText } from '@fortawesome/free-solid-svg-icons';
 
-import LinkButton from 'components/LinkButton';
-import FilterForm from 'components/nodeVersions/FilterForm';
-import CustomErrorBoundary from 'components/ErrorBoundary';
-import useNodeVersionData from 'hooks/useNodeVersionData';
-
-export const ErrorBoundary = CustomErrorBoundary;
+import LinkButton from '../components/LinkButton';
+import FilterForm from '../components/nodeVersions/FilterForm';
+import SuspenseFallback from '../components/SuspenseFallback';
+import useNodeVersionData from '../hooks/useNodeVersionData';
 
 export function Component() {
   const [filter, setFilter] = useState(null);
@@ -18,7 +16,7 @@ export function Component() {
   });
   const { data, error, loading } = useNodeVersionData({ sort, filter });
 
-  const handleSortClick = useCallback((newField) => {
+  const handleSortClick = useCallback((newField: string) => {
     setSort(({ field, direction }) => {
       if (field === newField) {
         return {
@@ -32,11 +30,7 @@ export function Component() {
   }, []);
 
   if (loading) {
-    return (
-      <Fragment>
-        <h1>Loading...</h1>
-      </Fragment>
-    );
+    return <SuspenseFallback />;
   } else if (error) {
     throw error;
   }

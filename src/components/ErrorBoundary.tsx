@@ -11,8 +11,10 @@ export default function ErrorBoundary() {
         <h1>
           {error.status} {error.statusText}
         </h1>
+      ) : error instanceof Error ? (
+        <h1>{error.message}</h1>
       ) : (
-        <h1>{error.message || error}</h1>
+        <h1>{error as string}</h1>
       )}
     </Container>
   );

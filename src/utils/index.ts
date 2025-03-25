@@ -82,9 +82,9 @@ export const qualifiers = [
 export const booleanQualifiers = ['unstable', 'insecure'];
 
 export class Qualifier {
-  prefix;
-  type;
-  value;
+  prefix: string;
+  type: string;
+  value: string;
 
   constructor(prefix = '', value = '', type = 'string') {
     this.prefix = prefix;

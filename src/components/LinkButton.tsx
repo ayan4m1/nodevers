@@ -1,13 +1,20 @@
-import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ComponentPropsWithoutRef } from 'react';
+
+interface IProps extends ComponentPropsWithoutRef<'button'> {
+  href: string;
+  title?: string;
+  icon?: IconProp;
+}
 
 export default function LinkButton({
   href,
   title = null,
   icon = null,
   ...props
-}) {
+}: IProps) {
   return (
     <Button
       {...props}
@@ -22,9 +29,3 @@ export default function LinkButton({
     </Button>
   );
 }
-
-LinkButton.propTypes = {
-  href: PropTypes.string.isRequired,
-  title: PropTypes.string,
-  icon: PropTypes.object
-};
