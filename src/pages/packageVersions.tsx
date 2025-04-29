@@ -2,13 +2,14 @@ import { Fragment } from 'react';
 import { useFormik } from 'formik';
 import { Helmet } from 'react-helmet';
 import { Button, ButtonGroup, Card, Col, Row, Table } from 'react-bootstrap';
-import { faCode } from '@fortawesome/free-solid-svg-icons';
+import { faChartDiagram, faCode } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import FilterForm from '../components/packageVersions/FilterForm';
 import usePackageVersionData from '../hooks/usePackageVersionData';
 import SuspenseFallback from '../components/SuspenseFallback';
 import { getCodeBrowserUrl } from '../utils';
+import LinkButton from '../components/LinkButton';
 
 export function Component() {
   const formikContext = useFormik({
@@ -35,24 +36,16 @@ export function Component() {
           <Row>
             <Col xs={10}>
               <h1>Package {data.name}</h1>
+              <h2>Latest version is {data.latestVersion}</h2>
             </Col>
             <Col className="d-flex h-100 justify-content-end" xs={2}>
               <ButtonGroup>
-                <Button
-                  as="a"
+                <LinkButton
                   href={getCodeBrowserUrl(data.name)}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  variant="info"
-                >
-                  <FontAwesomeIcon icon={faCode} /> GitHub
-                </Button>
+                  title="View Contents"
+                  icon={faCode}
+                />
               </ButtonGroup>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <h2>Latest version is {data.latestVersion}</h2>
             </Col>
           </Row>
           <Row>
@@ -68,11 +61,25 @@ export function Component() {
                     </tr>
                   </thead>
                   <tbody>
-                    {Object.values(data.versions).map(({ version }) => (
-                      <tr key={version}>
-                        <td className="text-end">{version}</td>
-                      </tr>
-                    ))}
+                    {Object.values(data.versions).map(({ version }) => {
+                      const queryString = new URLSearchParams();
+
+                      queryString.append('q', `${data.name}@${version}`);
+
+                      return (
+                        <tr key={version}>
+                          <td className="text-end">
+                            <span>{version}</span>{' '}
+                            <LinkButton
+                              href={`https://npmgraph.js.org/?${queryString.toString()}`}
+                              icon={faChartDiagram}
+                              size="sm"
+                              title="Graph at npmgraph.js.org"
+                            />
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </Table>
               </Card>

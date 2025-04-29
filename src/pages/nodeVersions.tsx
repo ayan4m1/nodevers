@@ -73,6 +73,7 @@ export function Component() {
                     className="ms-2"
                     href={`https://nodejs.org/en/blog/release/v${node}`}
                     icon={faFileText}
+                    size="sm"
                   />
                 </td>
                 <td className="text-end">
@@ -83,6 +84,7 @@ export function Component() {
                         className="ms-2"
                         href={`https://github.com/npm/cli/releases/tag/v${npm}`}
                         icon={faFileText}
+                        size="sm"
                       />
                     </Fragment>
                   ) : (
