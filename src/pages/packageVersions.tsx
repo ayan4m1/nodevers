@@ -1,9 +1,8 @@
 import { Fragment } from 'react';
 import { useFormik } from 'formik';
 import { Helmet } from 'react-helmet';
-import { Button, ButtonGroup, Card, Col, Row, Table } from 'react-bootstrap';
+import { ButtonGroup, Card, Col, Row, Table } from 'react-bootstrap';
 import { faChartDiagram, faCode } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import FilterForm from '../components/packageVersions/FilterForm';
 import usePackageVersionData from '../hooks/usePackageVersionData';
