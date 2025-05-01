@@ -1,5 +1,5 @@
+import { useState } from 'react';
 import debounce from 'lodash.debounce';
-import { useCallback, useState } from 'react';
 
 import { BundleData, DataResult } from '../types';
 
