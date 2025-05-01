@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useFormik } from 'formik';
 import { Helmet } from 'react-helmet';
 import { ButtonGroup, Card, Col, Row, Table } from 'react-bootstrap';
@@ -9,8 +9,15 @@ import usePackageVersionData from '../hooks/usePackageVersionData';
 import SuspenseFallback from '../components/SuspenseFallback';
 import { getCodeBrowserUrl } from '../utils';
 import LinkButton from '../components/LinkButton';
+import useBundleData from '../hooks/useBundleData';
 
 export function Component() {
+  const {
+    data: bundleData,
+    error: bundleError,
+    loading: bundleLoading,
+    fetchData: fetchBundleData
+  } = useBundleData();
   const formikContext = useFormik({
     initialValues: {
       name: 'lodash',
@@ -20,11 +27,23 @@ export function Component() {
   });
   const { data, error, loading } = usePackageVersionData(formikContext.values);
 
-  if (loading) {
+  useEffect(() => {
+    if (!error && !loading && data?.versions?.length) {
+      fetchBundleData({
+        name: data.name,
+        version: data.versions[data.versions.length - 1].version,
+        backwardsLimit: data.versions.length
+      });
+    }
+  }, [data, error, loading, fetchBundleData]);
+
+  if (loading || bundleLoading) {
     return <SuspenseFallback />;
-  } else if (error) {
-    throw error;
+  } else if (error || bundleError) {
+    throw error ?? bundleError;
   }
+
+  console.dir(bundleData);
 
   return (
     <Fragment>

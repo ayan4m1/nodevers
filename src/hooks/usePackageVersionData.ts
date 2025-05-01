@@ -52,7 +52,7 @@ export default function usePackageVersionData({
                   .map(([, val]) => val.version)
               ).map(async (versionStr) => ({
                 ...newData.versions[versionStr],
-                changelogUrl: await getChangelogUrl(newData, versionStr)
+                changelogUrl: await getChangelogUrl(manifest, versionStr)
               }))
             )
           });

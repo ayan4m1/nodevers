@@ -31,6 +31,28 @@ export type PackageData = {
   description?: string;
 };
 
+export type BundleData = {
+  name: string;
+  version: string;
+  gzippedSize: number;
+  size: number;
+  dependencies: number;
+  supportsEsModules: boolean;
+  repoUrl?: string;
+};
+
+export type PackageManifest = {
+  name: string;
+  version: string;
+  homepage?: string;
+  'dist-tags': {
+    latest: string;
+  };
+  versions: {
+    test: number;
+  }[];
+};
+
 export type PackageVersionData = {
   name: string;
   version: string;

@@ -1,4 +1,5 @@
 import { sort } from 'semver';
+import { PackageManifest } from '../types';
 
 // const getGitLabUrl = ([user, repo]) => `https://gitlab.com/${user}/${repo}`;
 // const getBitbucketUrl = ([user, repo]) =>
@@ -18,19 +19,22 @@ const changelogRegex = /^\.\/changelog.*$/i;
 const packageContentsUrl = 'https://www.npmjs.com/package/';
 const packageDataUrl = 'https://registry.npmjs.org/';
 
-export const getPackageManifestUrl = (packageName) =>
+export const getPackageManifestUrl = (packageName: string) =>
   `${packageDataUrl}${encodeURIComponent(packageName)}`;
 
-export const getPackageContentsUrl = (packageName, version) =>
+export const getPackageContentsUrl = (packageName: string, version: string) =>
   `${packageContentsUrl}${packageName}/v/${version}/index`;
 
-export const getCodeBrowserUrl = (packageName) =>
+export const getCodeBrowserUrl = (packageName: string) =>
   `https://www.npmjs.com/package/${packageName}?activeTab=code`;
 
 export const getLatestVersion = ({ 'dist-tags': tags, versions }) =>
   tags.latest ?? sort(versions)[0];
 
-export const getChangelogUrl = async (manifest, desiredVersion = 'latest') => {
+export const getChangelogUrl = async (
+  manifest: PackageManifest,
+  desiredVersion = 'latest'
+) => {
   const { name, homepage } = manifest;
 
   if (!homepage) {
