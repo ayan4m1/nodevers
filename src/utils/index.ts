@@ -19,6 +19,8 @@ const changelogRegex = /^\.\/changelog.*$/i;
 const packageContentsUrl = 'https://www.npmjs.com/package/';
 const packageDataUrl = 'https://registry.npmjs.org/';
 
+export const getPageTitle = (title: string): string => `Nodevers - ${title}`;
+
 export const getPackageManifestUrl = (packageName: string) =>
   `${packageDataUrl}${encodeURIComponent(packageName)}`;
 

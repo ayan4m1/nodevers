@@ -1,4 +1,3 @@
-import { Helmet } from 'react-helmet';
 import { Badge, Table } from 'react-bootstrap';
 import { Fragment, useCallback, useState } from 'react';
 import { faFileText } from '@fortawesome/free-solid-svg-icons';
@@ -7,6 +6,7 @@ import LinkButton from '../components/LinkButton';
 import FilterForm from '../components/nodeVersions/FilterForm';
 import SuspenseFallback from '../components/SuspenseFallback';
 import useNodeVersionData from '../hooks/useNodeVersionData';
+import { getPageTitle } from '../utils';
 
 export function Component() {
   const [filter, setFilter] = useState(null);
@@ -37,7 +37,7 @@ export function Component() {
 
   return (
     <Fragment>
-      <Helmet title="Node/NPM Release Versions" />
+      <title>{getPageTitle('Node/NPM Release Versions')}</title>
       <FilterForm onFilterChange={setFilter} />
       <Table variant="dark">
         <thead>

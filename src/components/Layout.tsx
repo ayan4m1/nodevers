@@ -1,5 +1,4 @@
 import { Fragment } from 'react';
-import { Helmet } from 'react-helmet';
 import { Link, Outlet } from 'react-router-dom';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,7 +7,6 @@ import { faBoxesPacking } from '@fortawesome/free-solid-svg-icons';
 export default function Layout() {
   return (
     <Fragment>
-      <Helmet titleTemplate="Nodevers - %s" />
       <Navbar expand="lg" variant="dark">
         <Container>
           <Navbar.Brand>

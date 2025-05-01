@@ -1,15 +1,14 @@
-import { Fragment, useEffect } from 'react';
 import { useFormik } from 'formik';
-import { Helmet } from 'react-helmet';
+import { Fragment, useEffect } from 'react';
 import { ButtonGroup, Card, Col, Row, Table } from 'react-bootstrap';
 import { faChartDiagram, faCode } from '@fortawesome/free-solid-svg-icons';
 
+import LinkButton from '../components/LinkButton';
+import SuspenseFallback from '../components/SuspenseFallback';
 import FilterForm from '../components/packageVersions/FilterForm';
 import usePackageVersionData from '../hooks/usePackageVersionData';
-import SuspenseFallback from '../components/SuspenseFallback';
-import { getCodeBrowserUrl } from '../utils';
-import LinkButton from '../components/LinkButton';
 import useBundleData from '../hooks/useBundleData';
+import { getCodeBrowserUrl, getPageTitle } from '../utils';
 
 export function Component() {
   const {
@@ -46,7 +45,7 @@ export function Component() {
 
   return (
     <Fragment>
-      <Helmet title="Package Versions" />
+      <title>{getPageTitle('Package Versions')}</title>
       <FilterForm formikContext={formikContext} />
       {Boolean(data) && (
         <Fragment>
