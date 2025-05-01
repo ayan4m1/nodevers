@@ -1,9 +1,18 @@
-import PropTypes from 'prop-types';
 import { useCallback, useState } from 'react';
 import { Form, Col, Row, Card } from 'react-bootstrap';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 
-export default function FilterForm({ formikContext }) {
+import { PackageFormContext } from '../../types';
+
+type IProps = {
+  formikContext: {
+    handleChange: CallableFunction;
+    setFieldValue: CallableFunction;
+    values: PackageFormContext;
+  };
+};
+
+export default function FilterForm({ formikContext }: IProps) {
   const [packageNames, setPackageNames] = useState([]);
   const [loading, setLoading] = useState(false);
   const { handleChange, setFieldValue, values } = formikContext;
@@ -59,11 +68,3 @@ export default function FilterForm({ formikContext }) {
     </Row>
   );
 }
-
-FilterForm.propTypes = {
-  formikContext: PropTypes.shape({
-    handleChange: PropTypes.func.isRequired,
-    setFieldValue: PropTypes.func.isRequired,
-    values: PropTypes.object.isRequired
-  }).isRequired
-};

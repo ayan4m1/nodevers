@@ -1,34 +1,40 @@
 import { useFormik } from 'formik';
 import { validRange } from 'semver';
-import { useCallback } from 'react';
+import { KeyboardEvent, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Row, Col, Form, InputGroup, Button } from 'react-bootstrap';
 import { faRefresh, faUndo } from '@fortawesome/free-solid-svg-icons';
-import { FilterOptions } from '../../types';
 
-export default function FilterForm({ onFilterChange }) {
-  const { values, handleChange, handleSubmit, handleReset } = useFormik({
-    initialValues: {
-      desiredAppName: 'node',
-      term: ''
-    },
-    validateOnChange: false,
-    validate: (vals) => {
-      const result: FilterOptions = {
-        desiredAppName: null,
+import { FilterOptions, NodeFormContext } from '../../types';
+
+interface IProps {
+  onFilterChange: (values: NodeFormContext) => void | Promise<void>;
+}
+
+export default function FilterForm({ onFilterChange }: IProps) {
+  const { values, handleChange, handleSubmit, handleReset } =
+    useFormik<NodeFormContext>({
+      initialValues: {
+        desiredAppName: 'node',
         term: ''
-      };
+      },
+      validateOnChange: false,
+      validate: (vals) => {
+        const result: FilterOptions = {
+          desiredAppName: null,
+          term: ''
+        };
 
-      if (!validRange(vals.term)) {
-        result.term = 'Invalid semver expression.';
-      }
+        if (!validRange(vals.term)) {
+          result.term = 'Invalid semver expression.';
+        }
 
-      return result;
-    },
-    onSubmit: onFilterChange
-  });
+        return result;
+      },
+      onSubmit: onFilterChange
+    });
   const handleKeyUp = useCallback(
-    (event) => {
+    (event: KeyboardEvent<HTMLInputElement>) => {
       if (event.code === 'Enter') {
         handleSubmit();
       }

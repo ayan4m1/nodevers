@@ -41,6 +41,16 @@ export type BundleData = {
   repoUrl?: string;
 };
 
+export type NodeFormContext = {
+  desiredAppName: string;
+  term: string;
+};
+
+export type PackageFormContext = {
+  name: string;
+  version: string;
+};
+
 export type PackageManifest = {
   name: string;
   version: string;

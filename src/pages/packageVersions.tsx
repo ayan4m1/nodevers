@@ -9,6 +9,7 @@ import FilterForm from '../components/packageVersions/FilterForm';
 import usePackageVersionData from '../hooks/usePackageVersionData';
 import useBundleData from '../hooks/useBundleData';
 import { getCodeBrowserUrl, getPageTitle } from '../utils';
+import { PackageFormContext } from '../types';
 
 export function Component() {
   const {
@@ -17,7 +18,7 @@ export function Component() {
     loading: bundleLoading,
     fetchData: fetchBundleData
   } = useBundleData();
-  const formikContext = useFormik({
+  const formikContext = useFormik<PackageFormContext>({
     initialValues: {
       name: 'lodash',
       version: ''
