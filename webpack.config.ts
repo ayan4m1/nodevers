@@ -48,7 +48,12 @@ const config: Configuration = {
   entry: './src/index.tsx',
   devServer: {
     open: true,
-    historyApiFallback: true
+    historyApiFallback: true,
+    client: {
+      overlay: {
+        warnings: false
+      }
+    }
   },
   module: {
     rules: [
