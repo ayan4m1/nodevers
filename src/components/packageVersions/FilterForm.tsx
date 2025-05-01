@@ -1,3 +1,4 @@
+import { FormikProps } from 'formik';
 import { useCallback, useState } from 'react';
 import { Form, Col, Row, Card } from 'react-bootstrap';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
@@ -5,11 +6,7 @@ import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { PackageFormContext } from '../../types';
 
 type IProps = {
-  formikContext: {
-    handleChange: CallableFunction;
-    setFieldValue: CallableFunction;
-    values: PackageFormContext;
-  };
+  formikContext: FormikProps<PackageFormContext>;
 };
 
 export default function FilterForm({ formikContext }: IProps) {
@@ -17,7 +14,7 @@ export default function FilterForm({ formikContext }: IProps) {
   const [loading, setLoading] = useState(false);
   const { handleChange, setFieldValue, values } = formikContext;
 
-  const handleSearchUpdate = useCallback((query) => {
+  const handleSearchUpdate = useCallback((query: string) => {
     setLoading(true);
 
     fetch(
