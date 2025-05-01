@@ -31,7 +31,6 @@ export function Component() {
     if (!error && !loading && data?.versions?.length) {
       fetchBundleData({
         name: data.name,
-        version: data.versions[data.versions.length - 1].version,
         backwardsLimit: data.versions.length
       });
     }
