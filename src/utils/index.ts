@@ -18,8 +18,12 @@ import { PackageManifest } from '../types';
 const changelogRegex = /^\.\/changelog.*$/i;
 const packageContentsUrl = 'https://www.npmjs.com/package/';
 const packageDataUrl = 'https://registry.npmjs.org/';
+const bundleDataUrl = 'https://bundlephobia.com/api/package-history';
 
 export const getPageTitle = (title: string): string => `Nodevers - ${title}`;
+
+export const getBundleDataUrl = (packageName: string) =>
+  `${bundleDataUrl}?package=${encodeURIComponent(packageName)}`;
 
 export const getPackageManifestUrl = (packageName: string) =>
   `${packageDataUrl}${encodeURIComponent(packageName)}`;
