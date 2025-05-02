@@ -31,14 +31,26 @@ export type PackageData = {
   description?: string;
 };
 
+export type RawBundleData = Record<
+  string,
+  {
+    dependencyCount: number;
+    gzip: number;
+    isModuleType: boolean;
+    name: string;
+    repository?: string;
+    size: number;
+  }
+>;
+
 export type BundleData = {
-  name: string;
-  version: string;
-  gzippedSize: number;
-  size: number;
   dependencies: number;
-  supportsEsModules: boolean;
+  gzippedSize: number;
+  name: string;
   repoUrl?: string;
+  size: number;
+  supportsEsModules: boolean;
+  version: string;
 };
 
 export type NodeFormContext = {
