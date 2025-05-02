@@ -10,6 +10,7 @@ import usePackageVersionData from '../hooks/usePackageVersionData';
 import useBundleData from '../hooks/useBundleData';
 import { getCodeBrowserUrl, getPageTitle } from '../utils';
 import { PackageFormContext } from '../types';
+import prettyBytes from 'pretty-bytes';
 
 export function Component() {
   const {
@@ -30,8 +31,7 @@ export function Component() {
   useEffect(() => {
     if (!error && !loading && data?.versions?.length) {
       fetchBundleData({
-        name: data.name,
-        backwardsLimit: data.versions.length
+        name: data.name
       });
     }
   }, [data, error, loading, fetchBundleData]);
@@ -75,6 +75,9 @@ export function Component() {
                   <thead>
                     <tr>
                       <th className="text-end">Version</th>
+                      <th className="text-end">Dependencies</th>
+                      <th className="text-end">Bundle Size</th>
+                      <th className="text-center">View Graph</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -83,15 +86,32 @@ export function Component() {
 
                       queryString.append('q', `${data.name}@${version}`);
 
+                      const versionBundleData = bundleData.find(
+                        (bundle) => bundle.version === version
+                      );
+
                       return (
                         <tr key={version}>
                           <td className="text-end">
-                            <span>{version}</span>{' '}
+                            <span>{version}</span>
+                          </td>
+                          <td className="text-end">
+                            {versionBundleData?.dependencies ?? '?'}
+                          </td>
+                          {versionBundleData?.size ? (
+                            <td className="text-end">
+                              {prettyBytes(versionBundleData.size)} (
+                              {prettyBytes(versionBundleData.gzippedSize)}{' '}
+                              gzipped)
+                            </td>
+                          ) : (
+                            <td className="text-end">?</td>
+                          )}
+                          <td className="text-center">
                             <LinkButton
                               href={`https://npmgraph.js.org/?${queryString.toString()}`}
                               icon={faChartDiagram}
                               size="sm"
-                              title="Graph at npmgraph.js.org"
                             />
                           </td>
                         </tr>
