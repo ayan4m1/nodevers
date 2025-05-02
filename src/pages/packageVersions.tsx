@@ -42,8 +42,6 @@ export function Component() {
     throw error ?? bundleError;
   }
 
-  console.dir(bundleData);
-
   return (
     <Fragment>
       <title>{getPageTitle('Package Versions')}</title>
