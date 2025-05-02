@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { Container } from 'react-bootstrap';
 import { isRouteErrorResponse, useRouteError } from 'react-router';
 
@@ -12,7 +13,10 @@ export default function ErrorBoundary() {
           {error.status} {error.statusText}
         </h1>
       ) : error instanceof Error ? (
-        <h1>{error.message}</h1>
+        <Fragment>
+          <h1>{error.message}</h1>
+          <pre>{error.stack}</pre>
+        </Fragment>
       ) : (
         <h1>{error as string}</h1>
       )}
