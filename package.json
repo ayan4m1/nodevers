@@ -20,6 +20,7 @@
     "formik": "^2.4.6",
     "lodash.debounce": "^4.0.8",
     "normalize-scss": "^8.0.0",
+    "pretty-bytes": "^7.0.0",
     "react": "^19.1.0",
     "react-bootstrap": "^2.10.9",
     "react-bootstrap-typeahead": "^6.4.1",
