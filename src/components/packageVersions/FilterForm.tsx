@@ -1,18 +1,17 @@
-import { FormikProps } from 'formik';
+import { FormikProps, withFormik } from 'formik';
 import { useCallback, useState } from 'react';
 import { Form, Col, Row, Card } from 'react-bootstrap';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 
 import { PackageFormContext } from '../../types';
 
-type IProps = {
-  formikContext: FormikProps<PackageFormContext>;
-};
-
-export default function FilterForm({ formikContext }: IProps) {
+function FilterForm({
+  values,
+  handleChange,
+  setFieldValue
+}: FormikProps<PackageFormContext>) {
   const [packageNames, setPackageNames] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { handleChange, setFieldValue, values } = formikContext;
 
   const handleSearchUpdate = useCallback((query: string) => {
     setLoading(true);
@@ -65,3 +64,11 @@ export default function FilterForm({ formikContext }: IProps) {
     </Row>
   );
 }
+
+export default withFormik<object, PackageFormContext>({
+  mapPropsToValues: () => ({
+    name: 'lodash',
+    version: ''
+  }),
+  handleSubmit: () => {}
+})(FilterForm);

@@ -19,20 +19,18 @@ export function Component() {
     loading: bundleLoading,
     fetchData: fetchBundleData
   } = useBundleData();
-  const formikContext = useFormik<PackageFormContext>({
+  const form = useFormik<PackageFormContext>({
     initialValues: {
       name: 'lodash',
       version: ''
     },
     onSubmit: () => {}
   });
-  const { data, error, loading } = usePackageVersionData(formikContext.values);
+  const { data, error, loading } = usePackageVersionData(form.values);
 
   useEffect(() => {
     if (!error && !loading && data?.versions?.length) {
-      fetchBundleData({
-        name: data.name
-      });
+      fetchBundleData(data);
     }
   }, [data, error, loading, fetchBundleData]);
 
@@ -45,7 +43,7 @@ export function Component() {
   return (
     <Fragment>
       <title>{getPageTitle('Package Versions')}</title>
-      <FilterForm formikContext={formikContext} />
+      <FilterForm {...form} />
       {Boolean(data) && (
         <Fragment>
           <Row>
@@ -116,6 +114,21 @@ export function Component() {
                       );
                     })}
                   </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colSpan={4} className="text-end">
+                        Bundle size kindly provided by{' '}
+                        <a
+                          href="https://bundlephobia.com"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          bundlephobia
+                        </a>
+                        .
+                      </td>
+                    </tr>
+                  </tfoot>
                 </Table>
               </Card>
             </Col>
