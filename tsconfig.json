@@ -2,10 +2,12 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "module": "nodenext",
+    "module": "esnext",
+    "moduleResolution": "node",
     "jsx": "react-jsx",
     "outDir": "./dist",
-    "target": "esnext"
+    "target": "es6",
+    "baseUrl": "."
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"]
 }
