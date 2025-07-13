@@ -55,8 +55,8 @@ export function Component() {
               <ButtonGroup>
                 <LinkButton
                   href={getCodeBrowserUrl(data.name)}
-                  title="View Contents"
                   icon={faCode}
+                  title="View Contents"
                 />
               </ButtonGroup>
             </Col>
@@ -116,7 +116,7 @@ export function Component() {
                   </tbody>
                   <tfoot>
                     <tr>
-                      <td colSpan={4} className="text-end">
+                      <td className="text-end" colSpan={4}>
                         Bundle size kindly provided by{' '}
                         <a
                           href="https://bundlephobia.com"

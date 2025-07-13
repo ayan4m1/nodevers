@@ -41,7 +41,7 @@ export function Component() {
       <FilterForm onFilterChange={setFilter} />
       <Card body>
         <Card.Title className="mb-4 text-light">Matching Versions</Card.Title>
-        <Table hover variant="dark" className="mb-2">
+        <Table className="mb-2" hover variant="dark">
           <thead>
             <tr>
               <th onClick={() => handleSortClick('date')}>Release Date</th>
@@ -110,7 +110,7 @@ export function Component() {
           </tbody>
           <tfoot>
             <tr>
-              <td colSpan={5} className="text-end">
+              <td className="text-end" colSpan={5}>
                 Package metadata graciously provided by{' '}
                 <a
                   href="https://npmjs.com"
