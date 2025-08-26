@@ -63,7 +63,7 @@ const config: Configuration = {
   module: {
     rules: [
       {
-        test: /(analyzer|enable-threads).js$/,
+        test: /analyzer.js$/,
         type: 'asset/source'
       },
       {
