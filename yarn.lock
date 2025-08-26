@@ -2753,6 +2753,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"coi-serviceworker@npm:^0.1.7":
+  version: 0.1.7
+  resolution: "coi-serviceworker@npm:0.1.7"
+  checksum: 10c0/8bc93ec71b8ede014addedb85b27cd15d6744a15a47145b272239b655907f419a29f0b84990b1b5250d57fb29715d7c713944623df5d1be44f19d8e9120e6492
+  languageName: node
+  linkType: hard
+
 "color-convert@npm:^2.0.1":
   version: 2.0.1
   resolution: "color-convert@npm:2.0.1"
@@ -6558,6 +6565,7 @@ __metadata:
     clean-webpack-plugin: "npm:^4.0.0"
     cli-table: "npm:^0.3.11"
     cname-webpack-plugin: "npm:^3.0.0"
+    coi-serviceworker: "npm:^0.1.7"
     cross-env: "npm:^10.0.0"
     css-loader: "npm:^7.1.2"
     css-minimizer-webpack-plugin: "npm:^7.0.2"
