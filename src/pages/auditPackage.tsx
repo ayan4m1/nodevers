@@ -11,7 +11,6 @@ const findFile = (files: File[], filename: string): File =>
 
 export function Component() {
   const webContainer = useWebContainer();
-  // const consoleOutput = useRef<string[]>([]);
   const [consoleOutput, setConsoleOutput] = useState<string[]>([]);
   const appendConsoleOutput = useCallback(
     (line: string) => setConsoleOutput((existing) => [...existing, line]),
@@ -178,7 +177,6 @@ export function Component() {
         <div
           style={{
             minHeight: 400,
-            maxHeight: 400,
             backgroundColor: '#262323',
             width: '100%',
             overflow: 'scroll'

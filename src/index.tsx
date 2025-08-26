@@ -1,3 +1,5 @@
+import './utils/enable-threads.js';
+
 import { Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import WebContainerProvider from 'react-webcontainers';
