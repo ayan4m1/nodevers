@@ -30,17 +30,20 @@ for (const [name, edge] of tree.edgesOut.entries()) {
     depType = 'peer';
   }
 
-  let uniqueDeps = 0;
+  let uniqueDeps = 0,
+    subDepDeps = 0;
 
-  for (const [subDepName] of edge.to.edgesOut.entries()) {
-    if (!seen.has(subDepName)) {
-      uniqueDeps++;
+  if (edge.to) {
+    for (const [subDepName] of edge.to.edgesOut.entries()) {
+      if (!seen.has(subDepName)) {
+        uniqueDeps++;
+      }
+
+      seen.add(subDepName);
     }
 
-    seen.add(subDepName);
+    subDepDeps = edge.to.edgesOut.size;
   }
-
-  const subDepDeps = edge.to.edgesOut.size;
 
   table.push([name, depType, subDepDeps]);
 }

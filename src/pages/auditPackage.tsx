@@ -1,9 +1,9 @@
-import { FormControl } from 'react-bootstrap';
+import { Card, FormControl } from 'react-bootstrap';
 import { useWebContainer } from 'react-webcontainers';
 import { ChangeEvent, Fragment, useCallback, useState } from 'react';
 
 /* eslint-disable import-x/default */
-import analyzerSource from '../utils/analyzer.mjs';
+import analyzerSource from '../utils/analyzer.js';
 import { getPageTitle, PackageManager } from '../utils';
 
 const findFile = (files: File[], filename: string): File =>
@@ -47,7 +47,7 @@ export function Component() {
   "name": "analyzer",
   "type": "module",
   "dependencies": {
-    "@npmcli/arborist": "^9.0.0"
+    "@npmcli/arborist": "^9.0.0",
     "cli-table": "^0.3.11"
   }
 }
@@ -112,10 +112,22 @@ export function Component() {
             break;
         }
 
-        const installer = await webContainer.spawn(packageManager, installArgs);
+        let installer = await webContainer.spawn('npm', ['install']);
 
-        appendConsoleOutput('Installing dependencies...');
+        appendConsoleOutput('Installing dependencies... (be patient)');
         await installer.exit;
+
+        installer = await webContainer.spawn(packageManager, installArgs, {
+          cwd: './workdir'
+        });
+        await installer.exit;
+
+        const shrinkwrap = await webContainer.spawn('npm', ['shrinkwrap'], {
+          cwd: './workdir'
+        });
+
+        appendConsoleOutput('Creating shrinkwrap...');
+        await shrinkwrap.exit;
 
         const analyzer = await webContainer.spawn('node', ['index.js']);
 
@@ -123,7 +135,7 @@ export function Component() {
           new WritableStream({
             write(data) {
               appendConsoleOutput(
-                `> ${data.replace(/([^\x20-\x7E]\[[0-9]+m)+/g, '').trim()}`
+                `${data.replace(/([^\x20-\x7E]\[[0-9]+m)+/g, '').trim()}`
               );
             }
           })
@@ -142,9 +154,21 @@ export function Component() {
   return (
     <Fragment>
       <title>{getPageTitle('Package Auditor')}</title>
+      <Card bg="primary" body className="my-2" text="light">
+        Select your package.json and lockfile. No data is sent to any server -
+        everything runs in a{' '}
+        <a
+          href="https://webcontainers.io/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          WebContainer
+        </a>{' '}
+        inside your browser.
+      </Card>
       <h1>
         <FormControl
-          accept=".json"
+          accept=".json,.yaml,.lock"
           multiple
           onChange={handleFileChange}
           type="file"
@@ -167,7 +191,7 @@ export function Component() {
               fontFamily: '"VT323", monospace',
               fontWeight: 400,
               fontStyle: 'normal',
-              letterSpacing: '2px',
+              letterSpacing: '1.2px',
               padding: '10px'
             }}
           >
