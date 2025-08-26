@@ -1,7 +1,6 @@
 import globals from 'globals';
 import eslint from '@eslint/js';
 import reactPlugin from 'eslint-plugin-react';
-import importPlugin from 'eslint-plugin-import-x';
 import { config, configs } from 'typescript-eslint';
 import { configs as hooksConfigs } from 'eslint-plugin-react-hooks';
 import { flatConfigs as importConfigs } from 'eslint-plugin-import-x';
