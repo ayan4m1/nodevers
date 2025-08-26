@@ -1,5 +1,6 @@
-import { createRoot } from 'react-dom/client';
 import { Suspense } from 'react';
+import { createRoot } from 'react-dom/client';
+import WebContainerProvider from 'react-webcontainers';
 import { RouterProvider, createHashRouter } from 'react-router-dom';
 
 import './index.scss';
@@ -36,7 +37,9 @@ const router = createHashRouter([
 ]);
 
 root.render(
-  <Suspense fallback={<SuspenseFallback />}>
-    <RouterProvider router={router} />
-  </Suspense>
+  <WebContainerProvider>
+    <Suspense fallback={<SuspenseFallback />}>
+      <RouterProvider router={router} />
+    </Suspense>
+  </WebContainerProvider>
 );

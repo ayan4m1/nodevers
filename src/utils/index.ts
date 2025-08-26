@@ -15,6 +15,12 @@ import { PackageManifest } from '../types';
 //   gitlab: (locator) => getGitLabUrl(getUserAndRepo(locator))
 // };
 
+export enum PackageManager {
+  NPM = 'npm',
+  Yarn = 'yarn',
+  PNPM = 'pnpm'
+}
+
 const changelogRegex = /^\.\/changelog.*$/i;
 const packageContentsUrl = 'https://www.npmjs.com/package/';
 const packageDataUrl = 'https://registry.npmjs.org/';
