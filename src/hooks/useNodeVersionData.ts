@@ -1,7 +1,12 @@
 import { compare, satisfies } from 'semver';
 import { useEffect, useState, useMemo } from 'react';
 
-import { FilterOptions, NodeVersionData, SortOptions } from '../types';
+import {
+  FilterOptions,
+  NodeVersionData,
+  RawNodeVersionData,
+  SortOptions
+} from '../types';
 
 const semverFields = ['node', 'npm'];
 const url = 'https://nodejs.org/dist/index.json';
@@ -34,14 +39,15 @@ export default function useNodeVersionData({ sort, filter }: IProps) {
     async function fetchData() {
       try {
         const result = await fetch(url);
-        const rawData = await result.json();
+        const rawData =
+          (await result.json()) as unknown as RawNodeVersionData[];
 
         const transformedData = rawData.map(
           ({ version, lts, npm, modules, date }) => ({
             node: version.replace(/^v/, ''),
-            npm,
+            npm: npm ?? '0.0.0',
             lts,
-            modules,
+            modules: isNaN(parseInt(modules, 10)) ? 0 : parseInt(modules, 10),
             date
           })
         );

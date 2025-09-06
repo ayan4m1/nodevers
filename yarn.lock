@@ -6600,6 +6600,7 @@ __metadata:
     react-dom: "npm:^19.1.1"
     react-router-dom: "npm:6.30.1"
     react-webcontainers: "npm:^1.0.1"
+    react-window: "npm:^2.0.2"
     reselect: "npm:^5.1.1"
     sass: "npm:^1.90.0"
     sass-loader: "npm:^16.0.5"
@@ -7919,6 +7920,16 @@ __metadata:
   dependencies:
     "@webcontainer/api": "npm:^1.1.5"
   checksum: 10c0/2919222b23816added7d827e5f3ed771d5731475a057296c0d132d2d8b5e32d4a4b6a519956312657751ed4998b8a737d00e0d8a14b4364954cea8515bd6d5b2
+  languageName: node
+  linkType: hard
+
+"react-window@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "react-window@npm:2.0.2"
+  peerDependencies:
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
+  checksum: 10c0/017260e40c60cfa3d34c74358e48dfb8df61d1f5e0ae2413f875a5ebad4caf59de678756e5f45574fa4dcc741e26fb0a3873bc614d23fd4d2da54948c29ae078
   languageName: node
   linkType: hard
 

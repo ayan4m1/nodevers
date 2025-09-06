@@ -20,10 +20,7 @@ export default function FilterForm({ onFilterChange }: IProps) {
       },
       validateOnChange: false,
       validate: (vals) => {
-        const result: FilterOptions = {
-          desiredAppName: null,
-          term: ''
-        };
+        const result: Partial<FilterOptions> = {};
 
         if (!validRange(vals.term)) {
           result.term = 'Invalid semver expression.';

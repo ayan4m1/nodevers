@@ -1,8 +1,9 @@
-import { Badge, Card, Table } from 'react-bootstrap';
+import { List } from 'react-window';
+import { Alert, Card, Col, Container, Row } from 'react-bootstrap';
 import { Fragment, useCallback, useState } from 'react';
-import { faFileText } from '@fortawesome/free-solid-svg-icons';
 
-import LinkButton from '../components/LinkButton';
+import SortIcon from '../components/SortIcon';
+import ResultRow from '../components/nodeVersions/ResultRow';
 import FilterForm from '../components/nodeVersions/FilterForm';
 import SuspenseFallback from '../components/SuspenseFallback';
 import useNodeVersionData from '../hooks/useNodeVersionData';
@@ -35,95 +36,77 @@ export function Component() {
     throw error;
   }
 
+  console.dir(filter);
+
   return (
     <Fragment>
       <title>{getPageTitle('Node/NPM Release Versions')}</title>
       <FilterForm onFilterChange={setFilter} />
       <Card body>
         <Card.Title className="mb-4 text-light">Matching Versions</Card.Title>
-        <Table className="mb-2" hover variant="dark">
-          <thead>
-            <tr>
-              <th onClick={() => handleSortClick('date')}>Release Date</th>
-              <th
-                className="text-center"
-                onClick={() => handleSortClick('lts')}
+        <Container fluid>
+          <Row className="g-0 my-2 pb-1 mb-3 border-bottom border-gray border-2">
+            <SortIcon
+              active={sort.field === 'date'}
+              initiallyActive
+              lg={2}
+              onClick={() => handleSortClick('date')}
+            >
+              Release Date
+            </SortIcon>
+            <Col className="text-center" lg={2}>
+              LTS
+            </Col>
+            <SortIcon
+              active={sort.field === 'node'}
+              className="text-end"
+              lg={3}
+              onClick={() => handleSortClick('node')}
+            >
+              Node.js Version
+            </SortIcon>
+            <SortIcon
+              active={sort.field === 'npm'}
+              className="text-end"
+              lg={3}
+              onClick={() => handleSortClick('npm')}
+            >
+              NPM Version
+            </SortIcon>
+            <SortIcon
+              active={sort.field === 'modules'}
+              className="text-end"
+              lg={2}
+              onClick={() => handleSortClick('modules')}
+            >
+              Module Version
+            </SortIcon>
+          </Row>
+          {data.length ? (
+            <List
+              className="container container-fluid"
+              rowComponent={ResultRow}
+              rowCount={data.length}
+              rowHeight={38}
+              rowProps={{ data }}
+            />
+          ) : (
+            <Alert variant="warning">No matching releases.</Alert>
+          )}
+          <Row className="g-0">
+            <Col className="text-end">
+              Package metadata graciously provided by{' '}
+              <a
+                href="https://npmjs.com"
+                rel="noopener noreferrer"
+                target="_blank"
               >
-                LTS
-              </th>
-              <th className="text-end" onClick={() => handleSortClick('node')}>
-                Node.js Version
-              </th>
-              <th className="text-end" onClick={() => handleSortClick('npm')}>
-                NPM Version
-              </th>
-              <th
-                className="text-end"
-                onClick={() => handleSortClick('modules')}
-              >
-                Module Version
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.length ? (
-              data.map(({ node, npm, lts, modules, date }) => (
-                <tr key={node}>
-                  <td>{date}</td>
-                  <td className="text-center">
-                    <Badge bg={lts ? 'success' : 'warning'}>
-                      {lts ? 'LTS' : 'Non-LTS'}
-                    </Badge>
-                  </td>
-                  <td className="text-end">
-                    <span>{node}</span>
-                    <LinkButton
-                      className="ms-2"
-                      href={`https://nodejs.org/en/blog/release/v${node}`}
-                      icon={faFileText}
-                      size="sm"
-                    />
-                  </td>
-                  <td className="text-end">
-                    {Boolean(npm) && (
-                      <Fragment>
-                        <span>{npm}</span>
-                        <LinkButton
-                          className="ms-2"
-                          href={`https://github.com/npm/cli/releases/tag/v${npm}`}
-                          icon={faFileText}
-                          size="sm"
-                        />
-                      </Fragment>
-                    )}
-                  </td>
-                  <td className="text-end">{modules}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td className="text-center" colSpan={5}>
-                  No matching releases.
-                </td>
-              </tr>
-            )}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td className="text-end" colSpan={5}>
-                Package metadata graciously provided by{' '}
-                <a
-                  href="https://npmjs.com"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  NPM
-                </a>
-                .
-              </td>
-            </tr>
-          </tfoot>
-        </Table>
+                NPM
+              </a>
+              .
+            </Col>
+          </Row>
+        </Container>
       </Card>
     </Fragment>
   );

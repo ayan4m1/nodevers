@@ -8,11 +8,19 @@ export type FilterOptions = {
   term: string;
 };
 
+export type RawNodeVersionData = {
+  version: string;
+  npm: string;
+  lts: boolean;
+  modules: string;
+  date: string;
+};
+
 export type NodeVersionData = {
   node: string;
   npm: string;
   lts: boolean;
-  modules: string;
+  modules: number;
   date: string;
 };
 
