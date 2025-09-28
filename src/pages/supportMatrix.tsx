@@ -94,7 +94,7 @@ export function Component() {
             <tr>
               <th>Version Number</th>
               <th>Is LTS?</th>
-              <th>End of Support</th>
+              <th>Appx. End of Support</th>
             </tr>
           </thead>
           <tbody>
@@ -102,7 +102,7 @@ export function Component() {
               const lts = version > 0 && version % 2 === 0;
               const endOfSupport = addMonths(
                 versions[versions.length - 1].date,
-                36
+                lts ? 36 : 6
               );
 
               return (
