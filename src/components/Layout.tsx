@@ -2,7 +2,11 @@ import { Fragment } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBoxesPacking, faSearch } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBoxesPacking,
+  faSearch,
+  faTableCells
+} from '@fortawesome/free-solid-svg-icons';
 
 export default function Layout() {
   return (
@@ -19,6 +23,10 @@ export default function Layout() {
             <Nav>
               <Nav.Link as={Link} to="/package">
                 <FontAwesomeIcon fixedWidth icon={faBoxesPacking} /> Packages
+              </Nav.Link>
+              <Nav.Link as={Link} to="/support-matrix">
+                <FontAwesomeIcon fixedWidth icon={faTableCells} /> Support
+                Matrix
               </Nav.Link>
               <Nav.Link as={Link} to="/package/audit">
                 <FontAwesomeIcon fixedWidth icon={faSearch} /> Auditor

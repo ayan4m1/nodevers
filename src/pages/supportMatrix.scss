@@ -1,0 +1,9 @@
+.timeline-chart svg {
+  g:nth-child(3) text {
+    fill: white;
+  }
+
+  g:nth-child(2) rect:last-child {
+    stroke-width: 0;
+  }
+}

@@ -24,6 +24,15 @@ export type NodeVersionData = {
   date: string;
 };
 
+export type SupportMatrixItem = {
+  node: string;
+  date: Date;
+  lts: boolean;
+};
+
+export type RawSupportMatrixData = Record<number, SupportMatrixItem[]>;
+export type SupportMatrixData = [number, SupportMatrixItem[]][];
+
 export type PackageData = {
   name: string;
   version: string;

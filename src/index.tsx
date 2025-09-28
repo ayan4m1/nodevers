@@ -20,6 +20,10 @@ const router = createHashRouter([
         lazy: () => import(`./pages/nodeVersions`)
       },
       {
+        path: 'support-matrix',
+        lazy: () => import('./pages/supportMatrix')
+      },
+      {
         path: 'package',
         children: [
           {

@@ -3231,6 +3231,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"date-fns@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "date-fns@npm:4.1.0"
+  checksum: 10c0/b79ff32830e6b7faa009590af6ae0fb8c3fd9ffad46d930548fbb5acf473773b4712ae887e156ba91a7b3dc30591ce0f517d69fd83bd9c38650fdc03b4e0bac8
+  languageName: node
+  linkType: hard
+
 "debug@npm:2.6.9":
   version: 2.6.9
   resolution: "debug@npm:2.6.9"
@@ -6569,6 +6576,7 @@ __metadata:
     cross-env: "npm:^10.0.0"
     css-loader: "npm:^7.1.2"
     css-minimizer-webpack-plugin: "npm:^7.0.2"
+    date-fns: "npm:^4.1.0"
     eslint: "npm:^9.33.0"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-import-resolver-typescript: "npm:^4.4.4"
@@ -6598,6 +6606,7 @@ __metadata:
     react-bootstrap: "npm:^2.10.10"
     react-bootstrap-typeahead: "npm:^6.4.1"
     react-dom: "npm:^19.1.1"
+    react-google-charts: "npm:^5.2.1"
     react-router-dom: "npm:6.30.1"
     react-webcontainers: "npm:^1.0.1"
     react-window: "npm:^2.0.2"
@@ -7858,6 +7867,16 @@ __metadata:
   version: 2.0.4
   resolution: "react-fast-compare@npm:2.0.4"
   checksum: 10c0/f0300c677e95198b5f993cbb8a983dab09586157dc678f9e2b5b29ff941b6677a8776fbbdc425ce102fad86937e36bb45cfcfd797f006270b97ccf287ebfb885
+  languageName: node
+  linkType: hard
+
+"react-google-charts@npm:^5.2.1":
+  version: 5.2.1
+  resolution: "react-google-charts@npm:5.2.1"
+  peerDependencies:
+    react: ">=16.3.0"
+    react-dom: ">=16.3.0"
+  checksum: 10c0/de9e4a685a7f0db37a2b89fc91e88a702b56819d59f1f2a9f02b8fa94604964cf1e7f59223332220548ebfd04f5e27e3a4b8f4a8842c87f5d5634eb23da1ff2a
   languageName: node
   linkType: hard
 
