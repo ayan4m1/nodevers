@@ -1,5 +1,11 @@
 import { major } from 'semver';
-import { addMonths, format, formatDistanceToNow, parseISO } from 'date-fns';
+import {
+  addMonths,
+  format,
+  formatDistanceToNow,
+  isAfter,
+  parseISO
+} from 'date-fns';
 import { Card, Table } from 'react-bootstrap';
 import { Fragment, useEffect, useState } from 'react';
 import {
@@ -92,31 +98,67 @@ export function Component() {
         <Table striped>
           <thead>
             <tr>
-              <th>Version Number</th>
-              <th>Is LTS?</th>
+              <th className="text-end" style={{ width: '20%' }}>
+                Version Number
+              </th>
+              <th className="text-center" style={{ width: '10%' }}>
+                Is LTS?
+              </th>
+              <th className="text-end" style={{ width: '10%' }}>
+                # of Releases
+              </th>
               <th>Appx. End of Support</th>
             </tr>
           </thead>
           <tbody>
             {matrix.map(([version, versions]) => {
               const lts = version > 0 && version % 2 === 0;
-              const endOfSupport = addMonths(
-                versions[versions.length - 1].date,
-                lts ? 36 : 6
-              );
+              let endOfSupport = new Date();
+
+              if (lts) {
+                const reverseVersions = [...versions];
+
+                reverseVersions.reverse();
+
+                const firstLtsVersion = reverseVersions.find(
+                  (version) => version.lts
+                );
+
+                endOfSupport = addMonths(
+                  firstLtsVersion ? firstLtsVersion.date : new Date(),
+                  30
+                );
+              } else {
+                endOfSupport = addMonths(versions[versions.length - 1].date, 6);
+              }
 
               return (
                 <tr key={version}>
-                  <td>{version}</td>
-                  <td>
+                  <td className="text-end">{version}</td>
+                  <td className="text-center">
                     <FontAwesomeIcon
-                      color={lts ? '#00aa00' : '#aa0000'}
+                      color={lts ? 'rgb(42, 161, 152)' : 'rgb(211, 54, 130)'}
                       fixedWidth
                       icon={lts ? faCheckCircle : faMinusCircle}
                     />{' '}
                     {lts ? 'Yes' : 'No'}
                   </td>
+                  <td className="text-end">{versions.length}</td>
                   <td>
+                    <FontAwesomeIcon
+                      className="me-1"
+                      color={
+                        isAfter(endOfSupport, Date.now())
+                          ? 'rgb(42, 161, 152)'
+                          : 'rgb(211, 54, 130)'
+                      }
+                      fixedWidth
+                      icon={
+                        isAfter(endOfSupport, Date.now())
+                          ? faCheckCircle
+                          : faMinusCircle
+                      }
+                    />
                     {format(endOfSupport, 'yyyy-MM-dd')} (
                     {formatDistanceToNow(endOfSupport, { addSuffix: true })})
                   </td>
