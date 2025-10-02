@@ -1,12 +1,15 @@
 import globals from 'globals';
 import eslint from '@eslint/js';
 import reactPlugin from 'eslint-plugin-react';
-import { config, configs } from 'typescript-eslint';
-import { configs as hooksConfigs } from 'eslint-plugin-react-hooks';
+import { configs } from 'typescript-eslint';
+import eslintPluginReactHooks from 'eslint-plugin-react-hooks';
 import { flatConfigs as importConfigs } from 'eslint-plugin-import-x';
 import eslintPluginPrettier from 'eslint-plugin-prettier/recommended';
 
-export default config([
+const { configs: hooksConfigs } = eslintPluginReactHooks;
+
+/** @type {import('@typescript-eslint/utils').TSESLint.FlatConfig.ConfigFile} */
+export default [
   eslint.configs.recommended,
   ...configs.recommended,
   importConfigs.recommended,
@@ -38,4 +41,4 @@ export default config([
     }
   },
   eslintPluginPrettier
-]);
+];
