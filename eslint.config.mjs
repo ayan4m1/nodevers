@@ -9,7 +9,7 @@ import eslintPluginPrettier from 'eslint-plugin-prettier/recommended';
 
 const { configs: hooksConfigs } = eslintPluginReactHooks;
 
-export default defineConfig([
+export default defineConfig(
   eslint.configs.recommended,
   ...configs.recommended,
   importConfigs.recommended,
@@ -41,4 +41,4 @@ export default defineConfig([
     }
   },
   eslintPluginPrettier
-]);
+);
