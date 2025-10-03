@@ -46,7 +46,6 @@ export default function SortIcon({
         variant="outline-primary"
       >
         <FontAwesomeIcon
-          fixedWidth
           icon={
             toggled === null || !active
               ? faSort

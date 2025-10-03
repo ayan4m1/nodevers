@@ -25,7 +25,7 @@ export default function LinkButton({
       target="_blank"
       variant="info"
     >
-      {Boolean(icon) && <FontAwesomeIcon fixedWidth icon={icon} />} {title}
+      {Boolean(icon) && <FontAwesomeIcon icon={icon} />} {title}
     </Button>
   );
 }

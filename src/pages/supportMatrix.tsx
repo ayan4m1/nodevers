@@ -138,7 +138,6 @@ export function Component() {
                   <td className="text-center">
                     <FontAwesomeIcon
                       color={lts ? 'rgb(42, 161, 152)' : 'rgb(211, 54, 130)'}
-                      fixedWidth
                       icon={lts ? faCheckCircle : faMinusCircle}
                     />{' '}
                     {lts ? 'Yes' : 'No'}
@@ -152,7 +151,6 @@ export function Component() {
                           ? 'rgb(42, 161, 152)'
                           : 'rgb(211, 54, 130)'
                       }
-                      fixedWidth
                       icon={
                         isAfter(endOfSupport, Date.now())
                           ? faCheckCircle

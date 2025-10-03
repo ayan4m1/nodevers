@@ -22,14 +22,13 @@ export default function Layout() {
           <Navbar.Collapse>
             <Nav>
               <Nav.Link as={Link} to="/package">
-                <FontAwesomeIcon fixedWidth icon={faBoxesPacking} /> Packages
+                <FontAwesomeIcon icon={faBoxesPacking} /> Packages
               </Nav.Link>
               <Nav.Link as={Link} to="/support-matrix">
-                <FontAwesomeIcon fixedWidth icon={faTableCells} /> Support
-                Matrix
+                <FontAwesomeIcon icon={faTableCells} /> Support Matrix
               </Nav.Link>
               <Nav.Link as={Link} to="/package/audit">
-                <FontAwesomeIcon fixedWidth icon={faSearch} /> Auditor
+                <FontAwesomeIcon icon={faSearch} /> Auditor
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
