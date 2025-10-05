@@ -118,11 +118,9 @@ export function Component() {
               if (lts) {
                 const reverseVersions = [...versions];
 
-                reverseVersions.reverse();
-
-                const firstLtsVersion = reverseVersions.find(
-                  (version) => version.lts
-                );
+                const firstLtsVersion = reverseVersions
+                  .reverse()
+                  .find((version) => version.lts);
 
                 endOfSupport = addMonths(
                   firstLtsVersion ? firstLtsVersion.date : new Date(),
