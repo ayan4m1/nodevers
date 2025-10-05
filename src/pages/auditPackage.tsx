@@ -154,7 +154,7 @@ export function Component() {
     <Fragment>
       <title>{getPageTitle('Package Auditor')}</title>
       <Card bg="primary" body className="my-2" text="light">
-        Select your package.json and lockfile. No data is sent to any server -
+        Select your package.json and lockfile. Your data is not sent anywhere -
         everything runs in a{' '}
         <a
           href="https://webcontainers.io/"
