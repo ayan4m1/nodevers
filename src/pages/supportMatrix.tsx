@@ -7,31 +7,25 @@ import {
   parseISO
 } from 'date-fns';
 import { Card, Table } from 'react-bootstrap';
-import { Fragment, useEffect, useState } from 'react';
-import {
-  RawSupportMatrixData,
-  SupportMatrixData,
-  SupportMatrixItem
-} from 'src/types';
+import { Fragment, useMemo } from 'react';
+import { RawSupportMatrixData, SupportMatrixItem } from 'src/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCheckCircle,
   faMinusCircle
 } from '@fortawesome/free-solid-svg-icons';
+import Chart from 'react-google-charts';
 
 import SuspenseFallback from '../components/SuspenseFallback';
 import useNodeVersionData from '../hooks/useNodeVersionData';
 import { getPageTitle } from '../utils';
-import Chart from 'react-google-charts';
 
 export function Component() {
-  const [matrix, setMatrix] = useState<SupportMatrixData>([]);
   const { data, error, loading } = useNodeVersionData({
     sort: { field: 'name', direction: true },
     filter: null
   });
-
-  useEffect(() => {
+  const matrix = useMemo(() => {
     if (!data) {
       return;
     }
@@ -59,7 +53,7 @@ export function Component() {
 
     versionList.sort((a, b) => b[0] - a[0]);
 
-    setMatrix(versionList);
+    return versionList;
   }, [data]);
 
   if (loading) {
@@ -145,12 +139,12 @@ export function Component() {
                     <FontAwesomeIcon
                       className="me-1"
                       color={
-                        isAfter(endOfSupport, Date.now())
+                        isAfter(endOfSupport, new Date())
                           ? 'rgb(42, 161, 152)'
                           : 'rgb(211, 54, 130)'
                       }
                       icon={
-                        isAfter(endOfSupport, Date.now())
+                        isAfter(endOfSupport, new Date())
                           ? faCheckCircle
                           : faMinusCircle
                       }
