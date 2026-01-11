@@ -14,7 +14,7 @@ export default defineConfig(
   ...configs.recommended,
   importConfigs.recommended,
   importConfigs.typescript,
-  hooksConfigs['recommended-latest'],
+  hooksConfigs.flat['recommended-latest'],
   {
     plugins: {
       react: reactPlugin
