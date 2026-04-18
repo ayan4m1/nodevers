@@ -21,7 +21,7 @@ interface SortIconProps {
 }
 
 export default function SortIcon({
-  initiallyActive = null,
+  initiallyActive = false,
   active,
   onClick,
   children,

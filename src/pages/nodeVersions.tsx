@@ -7,10 +7,11 @@ import ResultRow from '../components/nodeVersions/ResultRow';
 import FilterForm from '../components/nodeVersions/FilterForm';
 import SuspenseFallback from '../components/SuspenseFallback';
 import useNodeVersionData from '../hooks/useNodeVersionData';
+import { FilterOptions } from '../types';
 import { getPageTitle } from '../utils';
 
 export function Component() {
-  const [filter, setFilter] = useState(null);
+  const [filter, setFilter] = useState<FilterOptions>();
   const [sort, setSort] = useState({
     field: 'date',
     direction: true

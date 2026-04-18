@@ -5,8 +5,9 @@ import { ChangeEvent, Fragment, useCallback, useState } from 'react';
 /* eslint-disable import-x/default */
 import analyzerSource from '../utils/analyzer.js';
 import { getPageTitle, PackageManager } from '../utils';
+import { DirectoryNode, FileNode, FileSystemTree } from '@webcontainer/api';
 
-const findFile = (files: File[], filename: string): File =>
+const findFile = (files: File[], filename: string): File | undefined =>
   files.find((file) => file.name === filename);
 
 export function Component() {
@@ -18,7 +19,12 @@ export function Component() {
   );
   const handleFileChange = useCallback(
     async (e: ChangeEvent<HTMLInputElement>) => {
-      if (!e.target.files.length) {
+      if (!e.target.files?.length) {
+        return;
+      }
+
+      if (!webContainer) {
+        setConsoleOutput(['Critical Error: WebContainer not initialized.']);
         return;
       }
 
@@ -31,9 +37,9 @@ export function Component() {
         const pnpmLock = findFile(files, 'pnpm-lock.yaml');
         const yarnLock = findFile(files, 'yarn.lock');
 
-        const packageData = await packageFile.text();
-        const lockData = await (packageLock ?? yarnLock).text();
-        const fileSystem = {
+        const packageData = await packageFile?.text();
+        const lockData = await (packageLock ?? yarnLock)?.text();
+        const fileSystem: FileSystemTree = {
           'index.js': {
             file: {
               contents: analyzerSource
@@ -59,7 +65,7 @@ export function Component() {
                 file: {
                   contents: packageData
                 }
-              }
+              } as FileNode
             }
           }
         };
@@ -88,11 +94,11 @@ export function Component() {
             break;
         }
 
-        fileSystem['workdir']['directory'][lockFileName] = {
+        (fileSystem.workdir as DirectoryNode).directory[lockFileName] = {
           file: {
             contents: lockData
           }
-        };
+        } as FileNode;
 
         appendConsoleOutput('Mounting virtual filesystem...');
         await webContainer.mount(fileSystem);

@@ -44,7 +44,7 @@ export function Component() {
     <Fragment>
       <title>{getPageTitle('Package Versions')}</title>
       <FilterForm {...form} />
-      {Boolean(data) && (
+      {data !== undefined && (
         <Fragment>
           <Row>
             <Col xs={10}>
@@ -82,7 +82,7 @@ export function Component() {
 
                       queryString.append('q', `${data.name}@${version}`);
 
-                      const versionBundleData = bundleData.find(
+                      const versionBundleData = bundleData?.find(
                         (bundle) => bundle.version === version
                       );
 

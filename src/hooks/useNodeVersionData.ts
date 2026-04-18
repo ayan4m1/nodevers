@@ -13,7 +13,7 @@ const url = 'https://nodejs.org/dist/index.json';
 
 interface IProps {
   sort: SortOptions;
-  filter: FilterOptions;
+  filter?: FilterOptions;
 }
 
 export default function useNodeVersionData({ sort, filter }: IProps) {

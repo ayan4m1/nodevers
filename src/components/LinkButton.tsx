@@ -1,7 +1,7 @@
+import { ComponentPropsWithoutRef } from 'react';
 import { Button, ButtonProps } from 'react-bootstrap';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ComponentPropsWithoutRef } from 'react';
 
 export type LinkButtonProps = ButtonProps &
   ComponentPropsWithoutRef<'button'> & {
@@ -12,8 +12,8 @@ export type LinkButtonProps = ButtonProps &
 
 export default function LinkButton({
   href,
-  title = null,
-  icon = null,
+  title,
+  icon,
   ...props
 }: LinkButtonProps) {
   return (
@@ -25,7 +25,7 @@ export default function LinkButton({
       target="_blank"
       variant="info"
     >
-      {Boolean(icon) && <FontAwesomeIcon icon={icon} />} {title}
+      {icon !== undefined && <FontAwesomeIcon icon={icon} />} {title}
     </Button>
   );
 }

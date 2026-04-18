@@ -17,8 +17,8 @@ export default function usePackageVersionData({
   name,
   version
 }: IProps): DataResult<PackageVersionData> {
-  const [data, setData] = useState<PackageVersionData>(null);
-  const [error, setError] = useState<Error>(null);
+  const [data, setData] = useState<PackageVersionData>();
+  const [error, setError] = useState<Error>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

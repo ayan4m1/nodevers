@@ -1,4 +1,5 @@
 import { major } from 'semver';
+import { Fragment, useMemo } from 'react';
 import {
   addMonths,
   format,
@@ -7,8 +8,6 @@ import {
   parseISO
 } from 'date-fns';
 import { Card, Table } from 'react-bootstrap';
-import { Fragment, useMemo } from 'react';
-import { RawSupportMatrixData, SupportMatrixItem } from 'src/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCheckCircle,
@@ -18,12 +17,12 @@ import Chart from 'react-google-charts';
 
 import SuspenseFallback from '../components/SuspenseFallback';
 import useNodeVersionData from '../hooks/useNodeVersionData';
+import { RawSupportMatrixData, SupportMatrixItem } from '../types';
 import { getPageTitle } from '../utils';
 
 export function Component() {
   const { data, error, loading } = useNodeVersionData({
-    sort: { field: 'name', direction: true },
-    filter: null
+    sort: { field: 'name', direction: true }
   });
   const matrix = useMemo(() => {
     if (!data) {
@@ -69,7 +68,7 @@ export function Component() {
         <Card.Title>Support Matrix</Card.Title>
         <Chart
           chartType="Timeline"
-          data={matrix.map(([version, versions]) => [
+          data={matrix?.map(([version, versions]) => [
             'Version',
             String(version),
             versions[versions.length - 1].date,
@@ -105,7 +104,7 @@ export function Component() {
             </tr>
           </thead>
           <tbody>
-            {matrix.map(([version, versions]) => {
+            {matrix?.map(([version, versions]) => {
               const lts = version > 0 && version % 2 === 0;
               let endOfSupport = new Date();
 
