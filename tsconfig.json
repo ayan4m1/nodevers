@@ -5,7 +5,8 @@
     "module": "esnext",
     "moduleResolution": "node",
     "jsx": "react-jsx",
-    "rootDir": "./dist",
+    "rootDir": "./",
+    "outDir": "dist",
     "target": "esnext"
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"]
