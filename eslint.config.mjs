@@ -11,6 +11,7 @@ export default defineConfig(
   eslint.configs.recommended,
   ...configs.recommended,
   importConfigs.recommended,
+  importConfigs.react,
   importConfigs.typescript,
   reactPlugin.configs.flat['recommended'],
   reactHooksPlugin.configs.flat['recommended-latest'],
