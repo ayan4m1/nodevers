@@ -6,7 +6,7 @@ import {
   getLatestVersion,
   getPackageManifestUrl
 } from '../utils';
-import { DataResult, PackageVersionData } from '../types';
+import { DataResult, PackageManifest, PackageVersionData } from '../types';
 
 interface IProps {
   name: string;
@@ -25,11 +25,18 @@ export default function usePackageVersionData({
     async function fetchData() {
       try {
         const result = await fetch(getPackageManifestUrl(name));
-        const manifest = await result.json();
+        const manifest: PackageManifest = await result.json();
         const latestVersion = getLatestVersion(manifest);
         const changelogUrl = await getChangelogUrl(manifest);
 
-        const newData: PackageVersionData = {
+        const sortedVersions = (range?: string) =>
+          rsort(
+            Object.keys(manifest.versions).filter(
+              (testVersion) => !range || satisfies(testVersion, range)
+            )
+          );
+
+        const newData = {
           ...manifest,
           latestVersion,
           changelogUrl
@@ -38,21 +45,18 @@ export default function usePackageVersionData({
         if (!version) {
           setData({
             ...newData,
-            versions: rsort(
-              Object.entries(newData.versions).map(([, val]) => val.version)
-            ).map((versionStr) => newData.versions[versionStr])
+            versions: sortedVersions().map(
+              (versionStr) => manifest.versions[versionStr]
+            )
           });
         } else {
           setData({
             ...newData,
             versions: await Promise.all(
-              rsort(
-                Object.entries(newData.versions)
-                  .filter(([testVersion]) => satisfies(testVersion, version))
-                  .map(([, val]) => val.version)
-              ).map(async (versionStr) => ({
-                ...newData.versions[versionStr],
-                changelogUrl: await getChangelogUrl(manifest, versionStr)
+              sortedVersions(version).map(async (versionStr) => ({
+                ...manifest.versions[versionStr],
+                changelogUrl:
+                  (await getChangelogUrl(manifest, versionStr)) ?? undefined
               }))
             )
           });

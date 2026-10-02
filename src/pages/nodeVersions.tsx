@@ -37,8 +37,6 @@ export function Component() {
     throw error;
   }
 
-  console.dir(filter);
-
   return (
     <Fragment>
       <title>{getPageTitle('Node/NPM Release Versions')}</title>

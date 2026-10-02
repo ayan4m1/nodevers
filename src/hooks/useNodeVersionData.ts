@@ -61,9 +61,11 @@ export default function useNodeVersionData({ sort, filter }: IProps) {
             }
 
             if (semverFields.includes(field)) {
-              return compare(aVal, bVal) * (direction ? -1 : 1);
+              return (
+                compare(aVal as string, bVal as string) * (direction ? -1 : 1)
+              );
             } else if (typeof aVal === 'string') {
-              return aVal.localeCompare(bVal) * (direction ? -1 : 1);
+              return aVal.localeCompare(bVal as string) * (direction ? -1 : 1);
             } else if (typeof bVal === 'number' && typeof aVal === 'number') {
               return direction ? bVal - aVal : aVal - bVal;
             } else {

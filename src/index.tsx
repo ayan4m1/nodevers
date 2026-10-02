@@ -8,42 +8,46 @@ import Layout from './components/Layout';
 import SuspenseFallback from './components/SuspenseFallback';
 import ErrorBoundary from './components/ErrorBoundary';
 
-const root = createRoot(document.getElementById('root'));
-const router = createHashRouter([
-  {
-    path: '/',
-    element: <Layout />,
-    errorElement: <ErrorBoundary />,
-    children: [
-      {
-        index: true,
-        lazy: () => import(`./pages/nodeVersions`)
-      },
-      {
-        path: 'support-matrix',
-        lazy: () => import('./pages/supportMatrix')
-      },
-      {
-        path: 'package',
-        children: [
-          {
-            index: true,
-            lazy: () => import(`./pages/packageVersions`)
-          },
-          {
-            path: 'audit',
-            lazy: () => import(`./pages/auditPackage`)
-          }
-        ]
-      }
-    ]
-  }
-]);
+const rootElement = document.getElementById('root');
 
-root.render(
-  <WebContainerProvider>
-    <Suspense fallback={<SuspenseFallback />}>
-      <RouterProvider router={router} />
-    </Suspense>
-  </WebContainerProvider>
-);
+if (rootElement) {
+  const root = createRoot(rootElement);
+  const router = createHashRouter([
+    {
+      path: '/',
+      element: <Layout />,
+      errorElement: <ErrorBoundary />,
+      children: [
+        {
+          index: true,
+          lazy: () => import(`./pages/nodeVersions`)
+        },
+        {
+          path: 'support-matrix',
+          lazy: () => import('./pages/supportMatrix')
+        },
+        {
+          path: 'package',
+          children: [
+            {
+              index: true,
+              lazy: () => import(`./pages/packageVersions`)
+            },
+            {
+              path: 'audit',
+              lazy: () => import(`./pages/auditPackage`)
+            }
+          ]
+        }
+      ]
+    }
+  ]);
+
+  root.render(
+    <WebContainerProvider>
+      <Suspense fallback={<SuspenseFallback />}>
+        <RouterProvider router={router} />
+      </Suspense>
+    </WebContainerProvider>
+  );
+}

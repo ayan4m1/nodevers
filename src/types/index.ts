@@ -95,19 +95,13 @@ export type PackageManifest = {
   'dist-tags': {
     latest: string;
   };
-  versions: {
-    test: number;
-  }[];
+  versions: Record<string, PackageData>;
 };
 
-export type PackageVersionData = {
-  name: string;
-  version: string;
+export type PackageVersionData = Omit<PackageManifest, 'versions'> & {
   versions: PackageData[];
   latestVersion: string;
-  changelogUrl: string;
-
-  [key: string]: string | PackageData[];
+  changelogUrl: string | null;
 };
 
 export type DataResult<T> = {

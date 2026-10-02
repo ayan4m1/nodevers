@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react';
 import { Form, Col, Row, Card } from 'react-bootstrap';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 
-import { PackageFormContext } from '../../types';
+import { PackageData, PackageFormContext } from '../../types';
 import { Option } from 'react-bootstrap-typeahead/types/types';
 
 function FilterForm({
@@ -22,7 +22,9 @@ function FilterForm({
     )
       .then((result) => result.json())
       .then(({ objects }) =>
-        setPackageNames(objects.map(({ package: { name } }) => name))
+        setPackageNames(
+          objects.map(({ package: pkg }: { package: PackageData }) => pkg.name)
+        )
       )
       .finally(() => setLoading(false));
   }, []);

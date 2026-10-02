@@ -1,4 +1,4 @@
-import { sort } from 'semver';
+import { rsort } from 'semver';
 import { PackageManifest } from '../types';
 
 // const getGitLabUrl = ([user, repo]) => `https://gitlab.com/${user}/${repo}`;
@@ -40,8 +40,10 @@ export const getPackageContentsUrl = (packageName: string, version: string) =>
 export const getCodeBrowserUrl = (packageName: string) =>
   `https://www.npmjs.com/package/${packageName}?activeTab=code`;
 
-export const getLatestVersion = ({ 'dist-tags': tags, versions }) =>
-  tags.latest ?? sort(versions)[0];
+export const getLatestVersion = ({
+  'dist-tags': tags,
+  versions
+}: PackageManifest) => tags.latest ?? rsort(Object.keys(versions))[0];
 
 export const getChangelogUrl = async (
   manifest: PackageManifest,
@@ -74,8 +76,8 @@ export const getChangelogUrl = async (
     try {
       const homepageUrl = new URL(homepage);
 
-      homepageUrl.hash = undefined;
-      homepageUrl.pathname += `/${changelogFilePath.replace(/^\.\//, '')}`;
+      homepageUrl.hash = '';
+      homepageUrl.pathname += `/${changelogFilePath?.replace(/^\.\//, '')}`;
 
       return homepageUrl.toString();
     } catch {

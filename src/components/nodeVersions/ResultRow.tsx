@@ -1,18 +1,13 @@
 import { Fragment } from 'react';
+import { RowComponentProps } from 'react-window';
+import { Badge, Col, Row } from 'react-bootstrap';
 import { faFileText } from '@fortawesome/free-solid-svg-icons';
 
 import LinkButton from '../LinkButton';
-import { Badge, Col, Row } from 'react-bootstrap';
-import { RowComponentProps } from 'react-window';
+import { NodeVersionData } from '../../types';
 
 interface ResultRowProps {
-  data: {
-    node: string;
-    npm: string;
-    lts: boolean;
-    modules: number;
-    date: string;
-  }[];
+  data: NodeVersionData[];
 }
 
 export default function ResultRow({
