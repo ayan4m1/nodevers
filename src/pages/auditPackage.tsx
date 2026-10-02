@@ -3,6 +3,7 @@ import { useWebContainer } from 'react-webcontainers';
 import { ChangeEvent, Fragment, useCallback, useState } from 'react';
 
 /* eslint-disable import-x/default */
+// @ts-expect-error analyzer.js is not typed
 import analyzerSource from '../utils/analyzer.js';
 import { getPageTitle, PackageManager } from '../utils';
 import { DirectoryNode, FileNode, FileSystemTree } from '@webcontainer/api';
