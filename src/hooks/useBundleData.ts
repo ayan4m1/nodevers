@@ -11,8 +11,8 @@ interface IProps {
 export default function useBundleData(): DataResult<BundleData[]> & {
   fetchData: DebouncedFunc<(props: IProps) => void>;
 } {
-  const [data, setData] = useState<BundleData[]>(null);
-  const [error, setError] = useState<Error>(null);
+  const [data, setData] = useState<BundleData[]>();
+  const [error, setError] = useState<Error>();
   const [loading, setLoading] = useState(true);
   const fetchData = useMemo(
     () =>
@@ -38,7 +38,7 @@ export default function useBundleData(): DataResult<BundleData[]> & {
 
           setData(transformedData);
         } catch (err) {
-          setError(err);
+          setError(err as Error);
         } finally {
           setLoading(false);
         }

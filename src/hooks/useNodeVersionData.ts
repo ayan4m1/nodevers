@@ -19,7 +19,7 @@ interface IProps {
 export default function useNodeVersionData({ sort, filter }: IProps) {
   const { field, direction } = sort;
   const [data, setData] = useState<NodeVersionData[]>([]);
-  const [error, setError] = useState<Error>(null);
+  const [error, setError] = useState<Error>();
   const [loading, setLoading] = useState(true);
   const filteredData = useMemo(() => {
     if (!filter) {
@@ -42,7 +42,7 @@ export default function useNodeVersionData({ sort, filter }: IProps) {
         const rawData =
           (await result.json()) as unknown as RawNodeVersionData[];
 
-        const transformedData = rawData.map(
+        const transformedData: NodeVersionData[] = rawData.map(
           ({ version, lts, npm, modules, date }) => ({
             node: version.replace(/^v/, ''),
             npm: npm ?? '0.0.0',
@@ -64,15 +64,17 @@ export default function useNodeVersionData({ sort, filter }: IProps) {
               return compare(aVal, bVal) * (direction ? -1 : 1);
             } else if (typeof aVal === 'string') {
               return aVal.localeCompare(bVal) * (direction ? -1 : 1);
-            } else {
+            } else if (typeof bVal === 'number' && typeof aVal === 'number') {
               return direction ? bVal - aVal : aVal - bVal;
+            } else {
+              return 0;
             }
           });
         }
 
         setData(transformedData);
       } catch (err) {
-        setError(err);
+        setError(err as Error);
       } finally {
         setLoading(false);
       }

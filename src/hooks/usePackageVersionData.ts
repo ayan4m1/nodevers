@@ -58,7 +58,7 @@ export default function usePackageVersionData({
           });
         }
       } catch (err) {
-        setError(err);
+        setError(err as Error);
       } finally {
         setLoading(false);
       }

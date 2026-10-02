@@ -22,6 +22,8 @@ export type NodeVersionData = {
   lts: boolean;
   modules: number;
   date: string;
+
+  [key: string]: string | boolean | number;
 };
 
 export type SupportMatrixItem = {
@@ -46,6 +48,12 @@ export type PackageData = {
   main?: string;
   engines?: string[];
   description?: string;
+
+  [key: string]:
+    | string
+    | string[]
+    | { url: string; name: string; email: string }
+    | undefined;
 };
 
 export type RawBundleData = Record<
@@ -98,6 +106,8 @@ export type PackageVersionData = {
   versions: PackageData[];
   latestVersion: string;
   changelogUrl: string;
+
+  [key: string]: string | PackageData[];
 };
 
 export type DataResult<T> = {

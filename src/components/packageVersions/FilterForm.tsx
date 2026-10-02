@@ -4,6 +4,7 @@ import { Form, Col, Row, Card } from 'react-bootstrap';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 
 import { PackageFormContext } from '../../types';
+import { Option } from 'react-bootstrap-typeahead/types/types';
 
 function FilterForm({
   values,
@@ -26,7 +27,7 @@ function FilterForm({
       .finally(() => setLoading(false));
   }, []);
   const handleSearchSelect = useCallback(
-    ([packageName]) => setFieldValue('name', packageName),
+    (packageNames: Option[]) => setFieldValue('name', packageNames[0]),
     [setFieldValue]
   );
 
