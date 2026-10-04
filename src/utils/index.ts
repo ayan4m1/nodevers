@@ -21,8 +21,9 @@ export enum PackageManager {
   PNPM = 'pnpm'
 }
 
-const changelogRegex = /^\.\/changelog.*$/i;
-const packageContentsUrl = 'https://www.npmjs.com/package/';
+const changelogRegex = /^\/(changelog|history|changes)(\.\w+)?$/i;
+const packageFilesUrl = 'https://data.jsdelivr.com/v1/packages/npm/';
+const packageCdnUrl = 'https://cdn.jsdelivr.net/npm/';
 const packageDataUrl = 'https://registry.npmjs.org/';
 const bundleDataUrl = 'https://bundlephobia.com/api/package-history';
 
@@ -34,8 +35,14 @@ export const getBundleDataUrl = (packageName: string) =>
 export const getPackageManifestUrl = (packageName: string) =>
   `${packageDataUrl}${encodeURIComponent(packageName)}`;
 
-export const getPackageContentsUrl = (packageName: string, version: string) =>
-  `${packageContentsUrl}${packageName}/v/${version}/index`;
+export const getPackageFilesUrl = (packageName: string, version: string) =>
+  `${packageFilesUrl}${packageName}@${version}?structure=flat`;
+
+export const getPackageFileUrl = (
+  packageName: string,
+  version: string,
+  path: string
+) => `${packageCdnUrl}${packageName}@${version}/${path}`;
 
 export const getCodeBrowserUrl = (packageName: string) =>
   `https://www.npmjs.com/package/${packageName}?activeTab=code`;
@@ -49,40 +56,25 @@ export const getChangelogUrl = async (
   manifest: PackageManifest,
   desiredVersion = 'latest'
 ) => {
-  const { name, homepage } = manifest;
-
-  if (!homepage) {
-    return null;
-  }
-
+  const { name } = manifest;
   const targetVersion =
     desiredVersion === 'latest' ? getLatestVersion(manifest) : desiredVersion;
 
   try {
-    const filesResult = await fetch(
-      getPackageContentsUrl(name, targetVersion),
-      {
-        mode: 'no-cors'
-      }
-    );
-    const { files } = await filesResult.json();
+    const filesResult = await fetch(getPackageFilesUrl(name, targetVersion));
 
-    const changelogFilePath = Object.keys(files).find((path) =>
-      changelogRegex.test(path)
-    );
-
-    // this will never work... ugh
-
-    try {
-      const homepageUrl = new URL(homepage);
-
-      homepageUrl.hash = '';
-      homepageUrl.pathname += `/${changelogFilePath?.replace(/^\.\//, '')}`;
-
-      return homepageUrl.toString();
-    } catch {
+    if (!filesResult.ok) {
       return null;
     }
+
+    const { files }: { files: { name: string }[] } = await filesResult.json();
+    const changelogFile = files.find((file) => changelogRegex.test(file.name));
+
+    if (!changelogFile) {
+      return null;
+    }
+
+    return getPackageFileUrl(name, targetVersion, changelogFile.name.slice(1));
   } catch {
     return null;
   }

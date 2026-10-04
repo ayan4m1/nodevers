@@ -17,23 +17,32 @@ export default function useBundleData(): DataResult<BundleData[]> & {
   const fetchData = useMemo(
     () =>
       debounce(async ({ name }: IProps) => {
+        setError(undefined);
+
         try {
           const result = await fetch(getBundleDataUrl(name));
-          const rawData = (await result.json()) as unknown as RawBundleData;
 
-          const transformedData: BundleData[] = Object.entries(rawData).map(
-            ([
-              version,
-              { name, dependencyCount, gzip, size, isModuleType, repository }
-            ]) => ({
-              dependencies: dependencyCount,
-              gzippedSize: gzip,
-              name: name,
-              repoUrl: repository,
-              size,
-              supportsEsModules: isModuleType,
-              version
-            })
+          // bundlephobia rate limits aggressively; treat failures as "no data"
+          if (!result.ok) {
+            setData([]);
+            return;
+          }
+
+          const rawData = (await result.json()) as RawBundleData;
+
+          const transformedData: BundleData[] = rawData.versions.flatMap(
+            ({ version, size, gzip, built }) =>
+              built && size !== null && gzip !== null
+                ? [
+                    {
+                      gzippedSize: gzip,
+                      name: rawData.name,
+                      repoUrl: rawData.repository,
+                      size,
+                      version
+                    }
+                  ]
+                : []
           );
 
           setData(transformedData);

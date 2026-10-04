@@ -71,7 +71,6 @@ export function Component() {
                   <thead>
                     <tr>
                       <th className="text-end">Version</th>
-                      <th className="text-end">Dependencies</th>
                       <th className="text-end">Bundle Size</th>
                       <th className="text-center">View Graph</th>
                     </tr>
@@ -90,9 +89,6 @@ export function Component() {
                         <tr key={version}>
                           <td className="text-end">
                             <span>{version}</span>
-                          </td>
-                          <td className="text-end">
-                            {versionBundleData?.dependencies ?? '?'}
                           </td>
                           {versionBundleData?.size ? (
                             <td className="text-end">
@@ -116,7 +112,7 @@ export function Component() {
                   </tbody>
                   <tfoot>
                     <tr>
-                      <td className="text-end" colSpan={4}>
+                      <td className="text-end" colSpan={3}>
                         Bundle size kindly provided by{' '}
                         <a
                           href="https://bundlephobia.com"

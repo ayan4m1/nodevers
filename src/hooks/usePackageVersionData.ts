@@ -23,6 +23,9 @@ export default function usePackageVersionData({
 
   useEffect(() => {
     async function fetchData() {
+      setLoading(true);
+      setError(undefined);
+
       try {
         const result = await fetch(getPackageManifestUrl(name));
         const manifest: PackageManifest = await result.json();

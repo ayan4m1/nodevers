@@ -1,4 +1,4 @@
-import { FormikProps, withFormik } from 'formik';
+import { FormikProps } from 'formik';
 import { useCallback, useState } from 'react';
 import { Form, Col, Row, Card } from 'react-bootstrap';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
@@ -6,7 +6,7 @@ import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import { PackageData, PackageFormContext } from '../../types';
 import { Option } from 'react-bootstrap-typeahead/types/types';
 
-function FilterForm({
+export default function FilterForm({
   values,
   handleChange,
   setFieldValue
@@ -29,7 +29,11 @@ function FilterForm({
       .finally(() => setLoading(false));
   }, []);
   const handleSearchSelect = useCallback(
-    (packageNames: Option[]) => setFieldValue('name', packageNames[0]),
+    (selected: Option[]) => {
+      if (selected.length) {
+        setFieldValue('name', selected[0] as string);
+      }
+    },
     [setFieldValue]
   );
 
@@ -67,11 +71,3 @@ function FilterForm({
     </Row>
   );
 }
-
-export default withFormik<object, PackageFormContext>({
-  mapPropsToValues: () => ({
-    name: 'lodash',
-    version: ''
-  }),
-  handleSubmit: () => {}
-})(FilterForm);

@@ -56,25 +56,23 @@ export type PackageData = {
     | undefined;
 };
 
-export type RawBundleData = Record<
-  string,
-  {
-    dependencyCount: number;
-    gzip: number;
-    isModuleType: boolean;
-    name: string;
-    repository?: string;
-    size: number;
-  }
->;
+export type RawBundleData = {
+  name: string;
+  repository?: string;
+  versions: {
+    version: string;
+    publishedAt: string;
+    size: number | null;
+    gzip: number | null;
+    built: boolean;
+  }[];
+};
 
 export type BundleData = {
-  dependencies: number;
   gzippedSize: number;
   name: string;
   repoUrl?: string;
   size: number;
-  supportsEsModules: boolean;
   version: string;
 };
 
