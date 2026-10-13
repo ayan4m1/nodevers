@@ -1,4 +1,5 @@
-import { compare, satisfies } from 'semver';
+import { compare, major, prerelease, satisfies } from 'semver';
+import { parseISO } from 'date-fns';
 import { useEffect, useState, useMemo } from 'react';
 
 import {
@@ -7,6 +8,7 @@ import {
   RawNodeVersionData,
   SortOptions
 } from '../types';
+import { isNodeVersionSupported } from '../utils';
 
 const semverFields = ['node', 'npm'];
 const url = 'https://nodejs.org/dist/index.json';
@@ -42,14 +44,41 @@ export default function useNodeVersionData({ sort, filter }: IProps) {
         const rawData =
           (await result.json()) as unknown as RawNodeVersionData[];
 
+        const firstReleases = new Map<number, Date>();
+
+        for (const { version, date } of rawData) {
+          if (prerelease(version)) {
+            continue;
+          }
+
+          const majorVersion = major(version);
+          const releaseDate = parseISO(date);
+          const existing = firstReleases.get(majorVersion);
+
+          if (!existing || releaseDate < existing) {
+            firstReleases.set(majorVersion, releaseDate);
+          }
+        }
+
+        const now = new Date();
+
         const transformedData: NodeVersionData[] = rawData.map(
-          ({ version, lts, npm, modules, date }) => ({
-            node: version.replace(/^v/, ''),
-            npm: npm ?? '0.0.0',
-            lts,
-            modules: isNaN(parseInt(modules, 10)) ? 0 : parseInt(modules, 10),
-            date
-          })
+          ({ version, lts, npm, modules, date }) => {
+            const majorVersion = major(version);
+
+            return {
+              node: version.replace(/^v/, ''),
+              npm: npm ?? '0.0.0',
+              supported: isNodeVersionSupported(
+                majorVersion,
+                firstReleases.get(majorVersion) ?? parseISO(date),
+                now
+              ),
+              lts,
+              modules: isNaN(parseInt(modules, 10)) ? 0 : parseInt(modules, 10),
+              date
+            };
+          }
         );
 
         if (field) {

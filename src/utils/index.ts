@@ -1,4 +1,6 @@
 import { rsort } from 'semver';
+import { addMonths, isBefore } from 'date-fns';
+
 import { PackageManifest } from '../types';
 
 // const getGitLabUrl = ([user, repo]) => `https://gitlab.com/${user}/${repo}`;
@@ -26,6 +28,25 @@ const packageFilesUrl = 'https://data.jsdelivr.com/v1/packages/npm/';
 const packageCdnUrl = 'https://cdn.jsdelivr.net/npm/';
 const packageDataUrl = 'https://registry.npmjs.org/';
 const bundleDataUrl = 'https://bundlephobia.com/api/package-history';
+
+const currentPhaseMonths = 6;
+const ltsEndMonths = 36;
+const annualReleaseMajor = 27;
+
+export const isNodeVersionSupported = (
+  majorVersion: number,
+  releaseDate: Date,
+  now: Date = new Date()
+): boolean => {
+  if (isBefore(now, addMonths(releaseDate, currentPhaseMonths))) {
+    return true;
+  }
+
+  const becomesLts =
+    majorVersion >= annualReleaseMajor || majorVersion % 2 === 0;
+
+  return becomesLts && isBefore(now, addMonths(releaseDate, ltsEndMonths));
+};
 
 export const getPageTitle = (title: string): string => `Nodevers - ${title}`;
 

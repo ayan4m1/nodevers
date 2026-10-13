@@ -20,6 +20,7 @@ export type NodeVersionData = {
   node: string;
   npm: string;
   lts: boolean;
+  supported: boolean;
   modules: number;
   date: string;
 

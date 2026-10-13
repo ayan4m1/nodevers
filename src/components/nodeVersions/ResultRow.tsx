@@ -15,14 +15,19 @@ export default function ResultRow({
   data,
   style
 }: RowComponentProps<ResultRowProps>) {
-  const { node, npm, lts, modules, date } = data[index];
+  const { node, npm, lts, supported, modules, date } = data[index];
 
   return (
-    <Row style={style}>
+    <Row className="g-0" style={style}>
       <Col lg={2}>{date}</Col>
-      <Col className="text-center" lg={2}>
+      <Col className="text-center">
         <Badge bg={lts ? 'success' : 'warning'}>
           {lts ? 'LTS' : 'Non-LTS'}
+        </Badge>
+      </Col>
+      <Col className="text-center">
+        <Badge bg={supported ? 'success' : 'warning'}>
+          {supported ? 'Yes' : 'No'}
         </Badge>
       </Col>
       <Col className="text-end" lg={3}>

@@ -53,9 +53,8 @@ export function Component() {
             >
               Release Date
             </SortIcon>
-            <Col className="text-center" lg={2}>
-              LTS
-            </Col>
+            <Col className="text-center">LTS</Col>
+            <Col className="text-center">Supported</Col>
             <SortIcon
               active={sort.field === 'node'}
               className="text-end"
