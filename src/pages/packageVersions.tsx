@@ -1,16 +1,17 @@
 import { useFormik } from 'formik';
+import { List } from 'react-window';
 import { Fragment, useEffect } from 'react';
-import { ButtonGroup, Card, Col, Row, Table } from 'react-bootstrap';
-import { faChartDiagram, faCode } from '@fortawesome/free-solid-svg-icons';
+import { ButtonGroup, Card, Col, Container, Row } from 'react-bootstrap';
+import { faCode } from '@fortawesome/free-solid-svg-icons';
 
 import LinkButton from '../components/LinkButton';
 import SuspenseFallback from '../components/SuspenseFallback';
 import FilterForm from '../components/packageVersions/FilterForm';
 import usePackageVersionData from '../hooks/usePackageVersionData';
+import { ResultRow } from '../components/packageVersions/ResultRow';
 import useBundleData from '../hooks/useBundleData';
-import { getCodeBrowserUrl, getPageTitle } from '../utils';
 import { PackageFormContext } from '../types';
-import prettyBytes from 'pretty-bytes';
+import { getCodeBrowserUrl, getPageTitle } from '../utils';
 
 export function Component() {
   const {
@@ -67,65 +68,43 @@ export function Component() {
                 <Card.Title className="mb-4 text-light">
                   Matching Versions
                 </Card.Title>
-                <Table bordered hover striped variant="dark">
-                  <thead>
-                    <tr>
-                      <th className="text-end">Version</th>
-                      <th className="text-end">Bundle Size</th>
-                      <th className="text-center">View Graph</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Object.values(data.versions).map(({ version }) => {
-                      const queryString = new URLSearchParams();
-
-                      queryString.append('q', `${data.name}@${version}`);
-
-                      const versionBundleData = bundleData?.find(
-                        (bundle) => bundle.version === version
-                      );
-
-                      return (
-                        <tr key={version}>
-                          <td className="text-end">
-                            <span>{version}</span>
-                          </td>
-                          {versionBundleData?.size ? (
-                            <td className="text-end">
-                              {prettyBytes(versionBundleData.size)} (
-                              {prettyBytes(versionBundleData.gzippedSize)}{' '}
-                              gzipped)
-                            </td>
-                          ) : (
-                            <td className="text-end">?</td>
-                          )}
-                          <td className="text-center">
-                            <LinkButton
-                              href={`https://npmgraph.js.org/?${queryString.toString()}`}
-                              icon={faChartDiagram}
-                              size="sm"
-                            />
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <td className="text-end" colSpan={3}>
-                        Bundle size kindly provided by{' '}
-                        <a
-                          href="https://bundlephobia.com"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          bundlephobia
-                        </a>
-                        .
-                      </td>
-                    </tr>
-                  </tfoot>
-                </Table>
+                <Container className="text-white">
+                  <Row>
+                    <Col className="text-end border-bottom border-2 pb-1 mb-2">
+                      Version
+                    </Col>
+                    <Col className="text-end border-bottom border-2 pb-1 mb-2">
+                      Bundle Size
+                    </Col>
+                    <Col className="text-center border-bottom border-2 pb-1 mb-2">
+                      View Graph
+                    </Col>
+                  </Row>
+                  <List
+                    className="container container-fluid"
+                    rowComponent={ResultRow}
+                    rowCount={Object.values(data.versions).length}
+                    rowHeight={30.3}
+                    rowProps={{
+                      bundleData,
+                      packageName: data.name,
+                      packages: Object.values(data.versions)
+                    }}
+                  />
+                  <Row className="mt-4">
+                    <Col className="text-end" xs={12}>
+                      Bundle size kindly provided by{' '}
+                      <a
+                        href="https://bundlephobia.com"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        bundlephobia
+                      </a>
+                      .
+                    </Col>
+                  </Row>
+                </Container>
               </Card>
             </Col>
           </Row>
